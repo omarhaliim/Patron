@@ -1,0 +1,1 @@
+class Registration3TwoModel {}
