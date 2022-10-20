@@ -50,6 +50,8 @@ import 'package:omar_s_application2/presentation/sign_in_verfiy_your_mobile_scre
 import 'package:omar_s_application2/presentation/sign_in_verfiy_your_mobile_screen/binding/sign_in_verfiy_your_mobile_binding.dart';
 import 'package:omar_s_application2/presentation/sign_in_enter_pin_screen/sign_in_enter_pin_screen.dart';
 import 'package:omar_s_application2/presentation/sign_in_enter_pin_screen/binding/sign_in_enter_pin_binding.dart';
+import 'package:omar_s_application2/presentation/sign_in_enter_otp_screen/sign_in_enter_otp_screen.dart';
+import 'package:omar_s_application2/presentation/sign_in_enter_otp_screen/binding/sign_in_enter_otp_binding.dart';
 import 'package:omar_s_application2/presentation/tution_fees_screen/tution_fees_screen.dart';
 import 'package:omar_s_application2/presentation/tution_fees_screen/binding/tution_fees_binding.dart';
 import 'package:omar_s_application2/presentation/add_money_screen/add_money_screen.dart';
@@ -70,9 +72,12 @@ import 'package:get/get.dart';
 import 'package:omar_s_application2/presentation/create_enter_pin/create_enter_pin.dart';
 import 'package:omar_s_application2/presentation/create_enter_pin/binding/create_enter_pin_binding.dart';
 
+import 'package:omar_s_application2/presentation/test_screen/test_screen.dart';
+import 'package:omar_s_application2/presentation/test_screen/binding/test_binding.dart';
+
 class AppRoutes {
-  static String CreateEnterPin = '/create_enter_pin' ;
-  
+  static String CreateEnterPin = '/create_enter_pin';
+
   static String splashScreen = '/splash_screen';
 
   static String successfulRequestScreen = '/successful_request_screen';
@@ -121,10 +126,11 @@ class AppRoutes {
 
   static String signInScreen = '/sign_in_screen';
 
-  static String signInVerfiyYourMobileScreen =
-      '/sign_in_verfiy_your_mobile_screen';
+  //static String signInVerfiyYourMobileScreen = '/sign_in_verfiy_your_mobile_screen';
 
-  static String signInEnterPinScreen = '/sign_in_enter_pin_screen';
+  //static String signInEnterPinScreen = '/sign_in_enter_pin_screen';
+
+  //static String signInEnterOtpScreen = '/sign_in_enter_otp_screen';
 
   static String tutionFeesScreen = '/tution_fees_screen';
 
@@ -144,12 +150,11 @@ class AppRoutes {
 
   static String initialRoute = '/initialRoute';
 
+  static String testScreen = '/test_screen';
+
   //create_enter_pin
 
   static List<GetPage> pages = [
-
-
-
     // GetPage(
     //   name: CreateEnterPin,
     //   page: () => create_enter_pin(),
@@ -290,6 +295,13 @@ class AppRoutes {
         SignInEnterPinOneBinding(),
       ],
     ),
+    // GetPage(
+    //   name: signInEnterOtpScreen,
+    //   page: () => SignInEnterOtpScreen(),
+    //   bindings: [
+    //     SignInEnterOtpBinding(),
+    //   ],
+    // ),
     GetPage(
       name: homeScreen,
       page: () => HomeScreen(),
@@ -325,20 +337,20 @@ class AppRoutes {
         SignInBinding(),
       ],
     ),
-    GetPage(
-      name: signInVerfiyYourMobileScreen,
-      page: () => SignInVerfiyYourMobileScreen(),
-      bindings: [
-        SignInVerfiyYourMobileBinding(),
-      ],
-    ),
-    GetPage(
-      name: signInEnterPinScreen,
-      page: () => SignInEnterPinScreen(),
-      bindings: [
-        SignInEnterPinBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: signInVerfiyYourMobileScreen,
+    //   page: () => SignInVerfiyYourMobileScreen(),
+    //   bindings: [
+    //     SignInVerfiyYourMobileBinding(),
+    //   ],
+    // ),
+    // GetPage(
+    //   name: signInEnterPinScreen,
+    //   page: () => SignInEnterPinScreen(),
+    //   bindings: [
+    //     SignInEnterPinBinding(),
+    //   ],
+    // ),
     GetPage(
       name: tutionFeesScreen,
       page: () => TutionFeesScreen(),
@@ -400,6 +412,14 @@ class AppRoutes {
       page: () => SplashScreen(),
       bindings: [
         SplashBinding(),
+      ],
+    ),
+
+    GetPage(
+      name: testScreen,
+      page: () => TestScreen(),
+      bindings: [
+        TestBinding(),
       ],
     )
   ];

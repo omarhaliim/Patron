@@ -11,18 +11,12 @@ class BoardingTwoScreen extends GetWidget<BoardingTwoController> {
             backgroundColor: ColorConstant.blueA700,
             body: Container(
                 width: size.width,
-                child: GestureDetector(
-                    onTap: () {
-                      onTapanyScreen();
-                    },
-                child: SingleChildScrollView(
-
-                    child: Container(
-                        child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
+                child: Container(
+                    child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                       Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -47,61 +41,53 @@ class BoardingTwoScreen extends GetWidget<BoardingTwoController> {
                                                 height: getVerticalSize(15.00),
                                                 width:
                                                     getHorizontalSize(16.00)))),
-                                    Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                              padding: getPadding(bottom: 2),
-                                              child: Text("lbl_what_s_new".tr,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.left,
-                                                  style: AppStyle
-                                                      .txtPoppinsMedium16
-                                                      .copyWith(height: 1.00))),
-                                          GestureDetector(
-                                              onTap: () {
-                                                onTapTxtSkip();
-                                              },
-                                              child: Padding(
-                                                  padding: getPadding(left: 91),
-                                                  child: Text("lbl_skip".tr,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      textAlign: TextAlign.left,
-                                                      style: AppStyle
-                                                          .txtPoppinsRegular16
-                                                          .copyWith(
-                                                              height: 1.00))))
-                                        ])
+                                    Text("lbl_what_s_new".tr,
+                                        maxLines: null,
+                                        textAlign: TextAlign.left,
+                                        style: AppStyle
+                                            .txtPoppinsSemiBold32WhiteA701
+                                            .copyWith(height: 1.41)),
+                                    GestureDetector(
+                                        onTap: () {
+                                          onTapanyScreen();
+                                        },
+                                        child: Text("Next".tr,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.left,
+                                            style: AppStyle.txtPoppinsRegular16
+                                                .copyWith(height: 1.00)))
                                   ]))),
-                      Padding(
-                          padding: getPadding(left: 14, top: 488, right: 14),
-                          child: Text("msg_pay_your_tution".tr,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: AppStyle.txtPoppinsSemiBold32WhiteA701
-                                  .copyWith(height: 1.00))),
                       Align(
-                          alignment: Alignment.centerRight,
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: getHorizontalSize(279.00),
+                          margin: getMargin(left: 14, top: 300),
+                          child: Text(
+                            "msg_pay_your_tution".tr,
+                            maxLines: null,
+                            textAlign: TextAlign.left,
+                            style: AppStyle.txtPoppinsSemiBold32WhiteA701
+                                .copyWith(height: 1.41),
+                          ),
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment.center,
                           child: Container(
                               height: getVerticalSize(10.00),
-                              margin: getMargin(
-                                  left: 157, top: 132, right: 157, bottom: 20),
+                              margin: getMargin(bottom: 20),
                               child: SmoothIndicator(
                                   offset: 0,
                                   count: 3,
                                   axisDirection: Axis.horizontal,
                                   effect: ScrollingDotsEffect(
-                                      spacing: 11.5,
+                                      spacing: 12,
                                       activeDotColor:
                                           ColorConstant.fromHex("#1212121D"),
                                       dotColor: ColorConstant.whiteA701,
                                       dotHeight: getVerticalSize(5.00),
                                       dotWidth: getHorizontalSize(5.00)))))
-                    ])))))));
+                    ])))));
   }
 
   onTapImgArrowleft() {
@@ -111,6 +97,7 @@ class BoardingTwoScreen extends GetWidget<BoardingTwoController> {
   onTapTxtSkip() {
     Get.toNamed(AppRoutes.startScreen);
   }
+
   onTapanyScreen() {
     Get.toNamed(AppRoutes.boardingThreeScreen);
   }

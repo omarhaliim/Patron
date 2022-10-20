@@ -4,8 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:omar_s_application2/core/app_export.dart';
 import 'package:omar_s_application2/widgets/custom_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:colour/colour.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
+  static TextEditingController myControllerPin = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -14,11 +18,12 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
         body: Container(
           width: size.width,
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: getPadding(
@@ -36,98 +41,50 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: double.infinity,
-                      margin: getMargin(
-                        left: 35,
-                        top: 36,
-                        right: 35,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          getHorizontalSize(
-                            4.00,
-                          ),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: getPadding(
-                              right: 10,
-                            ),
-                            child: Text(
-                              "msg_create_6_digit".tr,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style:
-                                  AppStyle.txtPoppinsMedium16Gray9007f.copyWith(
-                                height: 1.00,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: getPadding(
-                              top: 11,
-                            ),
-                            child: Container(
-                              width: getHorizontalSize(
-                                304.00,
-                              ),
-                              height: getVerticalSize(
-                                56.00,
-                              ),
-                              child: Obx(
-                                () => PinCodeTextField(
-                                  appContext: context,
-                                  controller: controller.otpController.value,
-                                  length: 6,
-                                  obscureText: false,
-                                  obscuringCharacter: '*',
-                                  keyboardType: TextInputType.number,
-                                  autoDismissKeyboard: true,
-                                  enableActiveFill: true,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  onChanged: (value) {},
-                                  pinTheme: PinTheme(
-                                    fieldHeight: getHorizontalSize(
-                                      56.00,
+                      alignment: Alignment.center,
+                      child: Container(
+                          width: double.infinity,
+                          margin: getMargin(left: 25, top: 36, right: 25),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  getHorizontalSize(4.00))),
+                          child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                    padding: getPadding(right: 10),
+                                    child: Text('Enter 6-Digit PIN Code',
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.left,
+                                        style: AppStyle
+                                            .txtPoppinsMedium16Gray9007f
+                                            .copyWith(height: 1.00))),
+                                Container(
+                                  margin: getMargin(top: 10),
+                                  child: PinCodeTextField(
+                                    pinTheme: PinTheme(
+                                      shape: PinCodeFieldShape.box,
+                                      inactiveColor: Colors.black26,
+                                      activeColor: Colors.black26,
+                                      selectedColor: Colors.black26,
+                                      fieldHeight: 60,
+                                      fieldWidth: 50,
                                     ),
-                                    fieldWidth: getHorizontalSize(
-                                      41.76,
-                                    ),
-                                    shape: PinCodeFieldShape.box,
-                                    borderRadius: BorderRadius.circular(
-                                      getHorizontalSize(
-                                        4.00,
-                                      ),
-                                    ),
-                                    selectedFillColor:
-                                        ColorConstant.fromHex("#1212121D"),
-                                    activeFillColor:
-                                        ColorConstant.fromHex("#1212121D"),
-                                    inactiveFillColor:
-                                        ColorConstant.fromHex("#1212121D"),
-                                    inactiveColor: ColorConstant.gray90059,
-                                    selectedColor: ColorConstant.gray90059,
-                                    activeColor: ColorConstant.gray90059,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    appContext: context,
+                                    length: 6,
+                                    boxShadows: [],
+                                    onChanged: (String value) {
+                                      print(myControllerPin.text);
+                                    },
+                                    controller: myControllerPin,
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                              ]))),
                   Align(
-
                     alignment: Alignment.center,
                     child: Padding(
                       padding: getPadding(
@@ -143,20 +100,34 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
                           height: 1.00,
                         ),
                       ),
-
                     ),
                   ),
-                  CustomButton(
-                    onTap: onTapBtnContinue,
-                    width: 240,
-                    text: "lbl_continue".tr.toUpperCase(),
-                    margin: getMargin(
-                      left: 35,
-                      top: 228,
-                      right: 35,
-                      bottom: 20,
-                    ),
+                  Align(
                     alignment: Alignment.center,
+                    child: Container(
+                      margin: getMargin(top: 100, bottom: 100),
+                      child: ElevatedButton(
+                        child: Text('login'.toUpperCase()),
+                        onPressed: () {
+                          if (validPin(myControllerPin.text.toString()))
+                            onTapBtnContinue();
+                          else
+                            Alert(
+                                    context: context,
+                                    title: "ERROR",
+                                    desc: "Incomplete PIN Code.")
+                                .show();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Colour(0, 100, 254),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 45, vertical: 7.5),
+                            textStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
+                            )),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -166,10 +137,19 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
       ),
     );
   }
+
   onTapBtnContinue() {
     Get.toNamed(AppRoutes.homeScreen);
   }
+
   onTapBtnForgetPin() {
     Get.toNamed(AppRoutes.createPinCodeScreen);
+  }
+
+  bool validPin(String PIN) {
+    if (PIN.length < 6)
+      return false;
+    else
+      return true;
   }
 }

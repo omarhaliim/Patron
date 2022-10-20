@@ -142,6 +142,8 @@ class ImageConstant {
   static String imgArrowleftWhiteA701 =
       'assets/images/img_arrowleft_white_A701.svg';
 
+  static String right = 'assets/images/right.svg';
+
   static String imgSettings22X22 = 'assets/images/img_settings_22X22.svg';
 
   static String imgHome = 'assets/images/img_home.svg';

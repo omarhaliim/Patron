@@ -1744,11 +1744,11 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
   }
 
   onTapSigninVerfiyyourmobile() {
-    Get.toNamed(AppRoutes.signInVerfiyYourMobileScreen);
+    //Get.toNamed(AppRoutes.signInVerfiyYourMobileScreen);
   }
 
   onTapSigninEnterPIN() {
-    Get.toNamed(AppRoutes.signInEnterPinScreen);
+    //Get.toNamed(AppRoutes.signInEnterPinScreen);
   }
 
   onTapTutionFees() {

@@ -7,6 +7,7 @@ import 'package:omar_s_application2/presentation/create_enter_pin/create_enter_p
 import 'package:omar_s_application2/presentation/create_enter_pin/binding/create_enter_pin_binding.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:colour/colour.dart';
 
 class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
   static String CreateEnterPin = '/create_enter_pin';
@@ -74,38 +75,22 @@ class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
                               textAlign: TextAlign.left,
                               style: AppStyle.txtPoppinsMedium16Gray9007f
                                   .copyWith(height: 1.00))),
-                      Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                              width: double.infinity,
-                              margin: getMargin(left: 34, top: 3, right: 34),
-                              decoration: AppDecoration.outlineGray90059
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.circleBorder2),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    TextField(
-                                      autocorrect: false,
-                                      controller: myControllerName,
-                                      //obscureText: true,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        //labelText: 'Password',
-                                      ),
-                                    ),
-                                    // Container(
-                                    //     height: getVerticalSize(33.00),
-                                    //     width: getHorizontalSize(296.00),
-                                    //     margin: getMargin(all: 4),
-                                    //     decoration: BoxDecoration(
-                                    //         borderRadius: BorderRadius.circular(
-                                    //                     getHorizontalSize(4.00)))
-                                    // )
-                                  ]))),
+                      Container(
+                        width: double.infinity,
+                        margin: getMargin(left: 34, top: 3, right: 34),
+                        decoration: AppDecoration.outlineGray90059.copyWith(
+                            borderRadius: BorderRadiusStyle.circleBorder2),
+                        child: TextField(
+                          style: TextStyle(height: 1.75),
+                          autocorrect: false,
+                          controller: myControllerName,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
                       Padding(
                           padding: getPadding(left: 35, top: 47, right: 35),
                           child: Text("lbl_email".tr,
@@ -113,31 +98,22 @@ class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
                               textAlign: TextAlign.left,
                               style: AppStyle.txtPoppinsMedium16Gray9007f
                                   .copyWith(height: 1.00))),
-                      Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                              width: double.infinity,
-                              margin: getMargin(left: 34, top: 4, right: 34),
-                              decoration: AppDecoration.outlineGray90059
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.circleBorder2),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    TextField(
-                                      controller: myControllerEmail,
-                                    ),
-                                    // Container(
-                                    //     height: getVerticalSize(33.00),
-                                    //     width: getHorizontalSize(296.00),
-                                    //     margin: getMargin(all: 4),
-                                    //     decoration: BoxDecoration(
-                                    //         borderRadius: BorderRadius.circular(
-                                    //             getHorizontalSize(4.00))))
-                                  ]))),
+                      Container(
+                        width: double.infinity,
+                        margin: getMargin(left: 34, top: 3, right: 34),
+                        decoration: AppDecoration.outlineGray90059.copyWith(
+                            borderRadius: BorderRadiusStyle.circleBorder2),
+                        child: TextField(
+                          style: TextStyle(height: 1.75),
+                          autocorrect: false,
+                          controller: myControllerEmail,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
                       Padding(
                           padding: getPadding(left: 35, top: 47, right: 35),
                           child: Text("lbl_mobile".tr,
@@ -145,47 +121,41 @@ class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
                               textAlign: TextAlign.left,
                               style: AppStyle.txtPoppinsMedium16Gray9007f
                                   .copyWith(height: 1.00))),
-                      Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                              width: double.infinity,
-                              margin: getMargin(left: 34, top: 4, right: 34),
-                              decoration: AppDecoration.outlineGray90059
-                                  .copyWith(
-                                      borderRadius:
-                                          BorderRadiusStyle.circleBorder2),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    TextField(
-                                      controller: myControllerPhone,
-                                    ),
-                                    // Container(
-                                    //     height: getVerticalSize(33.00),
-                                    //     width: getHorizontalSize(296.00),
-                                    //     margin: getMargin(all: 4),
-                                    //     decoration: BoxDecoration(
-                                    //         borderRadius: BorderRadius.circular(
-                                    //             getHorizontalSize(4.00))))
-                                  ]))),
+                      Container(
+                        width: double.infinity,
+                        margin: getMargin(left: 34, top: 3, right: 34),
+                        decoration: AppDecoration.outlineGray90059.copyWith(
+                            borderRadius: BorderRadiusStyle.circleBorder2),
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(height: 1.75),
+                          autocorrect: false,
+                          controller: myControllerPhone,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100,
+                      ),
                       Align(
                         alignment: Alignment.center,
-                        child: Container(
-                          margin: getMargin(left: 34, top: 40, right: 34),
-                          child: ElevatedButton(
-                            child: Text('continue'.toUpperCase() ),
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.blueAccent,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 20),
-                                textStyle: TextStyle(
-                                  color: Colors.black,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 20, fontWeight: FontWeight.bold)),
-                          ),
+                        child: ElevatedButton(
+                          child: Text('continue'.toUpperCase()),
+                          onPressed: () {
+                            onTapBtnContinue();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              primary: Colour(0, 100, 254),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 85, vertical: 7.5),
+                              textStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 20,
+                              )),
                         ),
                       ),
                     ]))))));
