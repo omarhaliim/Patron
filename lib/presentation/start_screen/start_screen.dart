@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
 import 'package:omar_s_application2/widgets/custom_button.dart';
 import 'package:colour/colour.dart';
+import 'package:omar_s_application2/db/user.dart';
+import 'package:omar_s_application2/db/db_provider.dart';
 
 class StartScreen extends GetWidget<StartController> {
   @override
@@ -32,6 +34,7 @@ class StartScreen extends GetWidget<StartController> {
                     child: Text('create account'.toUpperCase()),
                     onPressed: () {
                       onTapBtnCreateaccount();
+                      //onTapTestScreen();
                     },
                     style: ElevatedButton.styleFrom(
                         primary: Colour(0, 100, 254),
@@ -75,5 +78,21 @@ class StartScreen extends GetWidget<StartController> {
 
   onTapBtnSignInScreen() {
     Get.toNamed(AppRoutes.signInScreen);
+  }
+
+  onTapTestScreen() async {
+    // User user = User(
+    //     id: 1,
+    //     name: 'Ashraf',
+    //     password: '123456',
+    //     phone: '01096143191',
+    //     accountStatus: 'Potential',
+    //     loginStatus: 'SignedOut');
+    //
+    // await DatabaseProvider.db.update(user);
+    // print('User updated successfully');
+
+    List list = await DatabaseProvider.db.getUser('01096143191');
+    print(list.length);
   }
 }

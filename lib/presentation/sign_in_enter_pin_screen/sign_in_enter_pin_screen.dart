@@ -11,6 +11,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:omar_s_application2/db/db_provider.dart';
 import 'package:omar_s_application2/db/user.dart';
 import 'package:omar_s_application2/presentation/sign_in_verfiy_your_mobile_screen/sign_in_verfiy_your_mobile_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
   const SignInEnterPinScreen({super.key, required this.phone});
@@ -116,6 +117,8 @@ class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
                                           Container(
                                             margin: getMargin(top: 10),
                                             child: PinCodeTextField(
+                                              keyboardType:
+                                                  TextInputType.number,
                                               pinTheme: PinTheme(
                                                 shape: PinCodeFieldShape.box,
                                                 inactiveColor: Colors.black26,
@@ -130,7 +133,7 @@ class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
                                               length: 6,
                                               boxShadows: [],
                                               onChanged: (String value) {
-                                                print(myControllerPin.text);
+                                                //print(myControllerPin.text);
                                               },
                                               controller: myControllerPin,
                                             ),
@@ -158,11 +161,17 @@ class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
                           child: ElevatedButton(
                             child: Text('continue'.toUpperCase()),
                             onPressed: () async {
+                              //await onTapContinue(context);
+
                               if (validPin(myControllerPin.text.toString())) {
                                 if (await isCorrectPin(
-                                    phone, myControllerPin.text.toString()))
-                                  onTapContinue(context);
-                                else
+                                    phone, myControllerPin.text.toString())) {
+                                  SharedPreferences pref =
+                                      await SharedPreferences.getInstance();
+                                  pref.setString("number", phone);
+
+                                  await onTapContinue(context);
+                                } else
                                   Alert(
                                           type: AlertType.error,
                                           context: context,
@@ -178,7 +187,7 @@ class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
                             style: ElevatedButton.styleFrom(
                                 primary: Colour(0, 100, 254),
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 45, vertical: 7.5),
+                                    horizontal: 85, vertical: 7.5),
                                 textStyle: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 20,

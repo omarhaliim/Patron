@@ -91,12 +91,16 @@ class SignInScreen extends GetWidget<SignInController> {
                     child: ElevatedButton(
                       child: Text('continue'.toUpperCase()),
                       onPressed: () async {
+                        onTapBtnContinue(
+                            context, myControllerPhone.text.toString());
+
                         if (isValidPhoneNumber(
                             myControllerPhone.text.toString())) {
                           if (await isExistingUser(
                               myControllerPhone.text.toString()))
-                            onTapBtnContinue(
-                                context, myControllerPhone.text.toString());
+                            // onTapBtnContinue(
+                            //     context, myControllerPhone.text.toString());
+                            var x = 2;
                           else
                             Alert(
                               context: context,
@@ -136,13 +140,14 @@ class SignInScreen extends GetWidget<SignInController> {
                               .show();
                       },
                       style: ElevatedButton.styleFrom(
-                          primary: Colour(0, 100, 254),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 85, vertical: 7.5),
-                          textStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 20,
-                          )),
+                        primary: Colour(0, 100, 254),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 85, vertical: 7.5),
+                        textStyle: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   ),
                 ])));

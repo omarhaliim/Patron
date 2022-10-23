@@ -1,11 +1,8 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
-import 'dart:io';
 import 'package:omar_s_application2/db/db_provider.dart';
 
 class User {
-  late int id;
+  int id = 0;
+  late String nymID;
   late String name;
   late String password;
   late String phone;
@@ -13,7 +10,7 @@ class User {
   late String loginStatus;
 
   User(
-      {required this.id,
+      {required this.nymID,
       required this.name,
       required this.password,
       required this.phone,
@@ -24,6 +21,7 @@ class User {
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       DatabaseProvider.COLUMN_ID: id,
+      DatabaseProvider.COLUMN_NYM_ID: nymID,
       DatabaseProvider.COLUMN_NAME: name,
       DatabaseProvider.COLUMN_PASSWORD: password,
       DatabaseProvider.COLUMN_PHONE: phone,
@@ -37,6 +35,7 @@ class User {
   /// deserialise object when reading from database
   User.fromMap(Map<String, dynamic> map) {
     id = map[DatabaseProvider.COLUMN_ID];
+    nymID = map[DatabaseProvider.COLUMN_NYM_ID];
     name = map[DatabaseProvider.COLUMN_NAME];
     password = map[DatabaseProvider.COLUMN_PASSWORD];
     phone = map[DatabaseProvider.COLUMN_PHONE];

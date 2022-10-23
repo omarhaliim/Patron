@@ -25,33 +25,18 @@ class TestScreen extends GetWidget<TestController> {
   }
 
   onTapTestScreen() async {
-    //Get.toNamed(AppRoutes.boardingOneScreen);
-    //print("ashrafff1");
-
     User user = User(
-        id: 1,
+        nymID: "nymID1",
         name: 'Ashraf',
         password: '123456',
-        phone: '01553490803',
+        phone: '01096143191',
         accountStatus: 'Potential',
         loginStatus: 'SignedOut');
-
-    await DatabaseProvider.db.insert(user);
-    print('User updated successfully');
     //
-    // List list = await DatabaseProvider.db.getUsers();
-    // // print("ashrafff2");
-    // print(((list[0]) as User).password);
+    await DatabaseProvider.db.insert(user);
+    // print('User updated successfully');
 
-    // DatabaseProvider.db.deleteDatabase(
-    //     '/data/user/0/com.omarsapplication.app/databases/userDB.db');
-    //await DatabaseProvider.db.createDatabase();
-
-    List list = await DatabaseProvider.db.getUser('01553490803');
+    List list = await DatabaseProvider.db.getUsers();
     print(list.length);
-    // if (user == null)
-    //   print(true);
-    // else
-    //   print(false);
   }
 }

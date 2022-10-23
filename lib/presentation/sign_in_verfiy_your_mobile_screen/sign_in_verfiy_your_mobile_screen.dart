@@ -5,6 +5,7 @@ import 'package:omar_s_application2/widgets/custom_button.dart';
 import 'package:colour/colour.dart';
 import 'package:omar_s_application2/presentation/sign_in_enter_pin_screen/sign_in_enter_pin_screen.dart';
 import 'package:omar_s_application2/presentation/sign_in_enter_otp_screen/sign_in_enter_otp_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInVerfiyYourMobileScreen
     extends GetWidget<SignInVerfiyYourMobileController> {
@@ -107,8 +108,12 @@ class SignInVerfiyYourMobileScreen
                           alignment: Alignment.center,
                           child: ElevatedButton(
                             child: Text("lbl_back2".tr.toUpperCase()),
-                            onPressed: () {
-                              onTapImgArrowleft(context);
+                            onPressed: () async {
+                              SharedPreferences pref =
+                                  await SharedPreferences.getInstance();
+                              pref.remove("number");
+
+                              //onTapImgArrowleft(context);
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
@@ -142,7 +147,7 @@ class SignInVerfiyYourMobileScreen
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SignInEnterOtpScreen(phone: phone),
+        builder: (context) => OTPScreen(phone),
       ),
     );
   }

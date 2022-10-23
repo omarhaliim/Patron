@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "370083911931",
+    "project_id": "patron-c6da0",
+    "storage_bucket": "patron-c6da0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370083911931:android:07c47c8d8aa0daa4d4785e",
+        "android_client_info": {
+          "package_name": "com.omarsapplication.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370083911931-35135l75fdtv5635npa888tmslht5bbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYX4L2PiMfKVosuYixPFfF7K9HNMwHCDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370083911931-35135l75fdtv5635npa888tmslht5bbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

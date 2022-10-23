@@ -8,6 +8,7 @@ import 'package:omar_s_application2/db/user.dart';
 class DatabaseProvider {
   static const String TABLE_USER = 'User';
   static const String COLUMN_ID = 'id';
+  static const String COLUMN_NYM_ID = 'nym_id';
   static const String COLUMN_NAME = 'name';
   static const String COLUMN_PASSWORD = 'password';
   static const String COLUMN_PHONE = 'phone';
@@ -44,6 +45,7 @@ class DatabaseProvider {
         await database.execute(
           "CREATE TABLE $TABLE_USER ("
           "$COLUMN_ID INTEGER PRIMARY KEY,"
+          "$COLUMN_NYM_ID TEXT,"
           "$COLUMN_NAME TEXT,"
           "$COLUMN_PASSWORD TEXT,"
           "$COLUMN_PHONE TEXT,"
@@ -64,6 +66,7 @@ class DatabaseProvider {
       TABLE_USER,
       columns: [
         COLUMN_ID,
+        COLUMN_NYM_ID,
         COLUMN_NAME,
         COLUMN_PASSWORD,
         COLUMN_PHONE,
@@ -116,6 +119,7 @@ class DatabaseProvider {
     var users = await db.query(TABLE_USER,
         columns: [
           COLUMN_ID,
+          COLUMN_NYM_ID,
           COLUMN_NAME,
           COLUMN_PASSWORD,
           COLUMN_PHONE,
@@ -143,6 +147,7 @@ class DatabaseProvider {
     var result = await db.query(TABLE_USER,
         columns: [
           COLUMN_ID,
+          COLUMN_NYM_ID,
           COLUMN_NAME,
           COLUMN_PASSWORD,
           COLUMN_PHONE,

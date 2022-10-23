@@ -239,13 +239,13 @@ class AppRoutes {
         CreateAnAccountBinding(),
       ],
     ),
-    GetPage(
-      name: verfiyYourMobileScreen,
-      page: () => VerfiyYourMobileScreen(),
-      bindings: [
-        VerfiyYourMobileBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: verfiyYourMobileScreen,
+    //   page: () => VerfiyYourMobileScreen(),
+    //   bindings: [
+    //     VerfiyYourMobileBinding(),
+    //   ],
+    // ),
     GetPage(
       name: registrationThreeScreen,
       page: () => RegistrationThreeScreen(),
@@ -274,13 +274,13 @@ class AppRoutes {
         RegistrationFourBinding(),
       ],
     ),
-    GetPage(
-      name: createPinCodeScreen,
-      page: () => CreatePinCodeScreen(),
-      bindings: [
-        CreatePinCodeBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: createPinCodeScreen,
+    //   page: () => CreatePinCodeScreen(),
+    //   bindings: [
+    //     CreatePinCodeBinding(),
+    //   ],
+    // ),
     GetPage(
       name: successfulAccountScreen,
       page: () => SuccessfulAccountScreen(),
