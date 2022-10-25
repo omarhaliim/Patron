@@ -1,7 +1,7 @@
 import 'package:omar_s_application2/db/db_provider.dart';
 
 class User {
-  int id = 0;
+  late int id;
   late String nymID;
   late String name;
   late String password;

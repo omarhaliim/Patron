@@ -22,6 +22,18 @@ class DatabaseProvider {
   // single reference to the database throughout the app
   static Database? _database;
 
+  Database? getDB() {
+    return _database;
+  }
+
+  void nullifyDB() {
+    _database = null;
+  }
+
+  dropTable() async {
+    await _database!.execute("DROP TABLE IF EXISTS $TABLE_USER");
+  }
+
   Future<Database> get database async => _database ??= await createDatabase();
   //Future<Database> get database async => await createDatabase();
 
@@ -31,7 +43,7 @@ class DatabaseProvider {
   Future<Database> createDatabase() async {
     //print(_database);
     String dbPath = await getDatabasesPath();
-    //print("ashraffff $dbPath");
+    print("ashraffff $dbPath");
 
     //  plugin which returns the default databases location.
     // On Android, it’s usually data/data//databases
@@ -88,8 +100,18 @@ class DatabaseProvider {
 
   Future<User> insert(User user) async {
     final db = await database; // database getter called
-    user.id = await db.insert(TABLE_USER, user.toMap()); // serialise
+    user.id = await getID();
+    await db.insert(TABLE_USER, user.toMap()); // serialise
     return user;
+  }
+
+  Future<int> getID() async {
+    List list = await getUsers();
+
+    if (list.length == 0)
+      return 1;
+    else
+      return (list[list.length - 1] as User).id + 1;
   }
 
   Future<int> delete(int id) async {

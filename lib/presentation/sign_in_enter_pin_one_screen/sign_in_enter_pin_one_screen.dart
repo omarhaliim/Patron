@@ -1,3 +1,4 @@
+import '../verfiy_your_mobile_screen/verfiy_your_mobile_screen.dart';
 import 'controller/sign_in_enter_pin_one_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,9 @@ import 'package:omar_s_application2/widgets/custom_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:colour/colour.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:omar_s_application2/db/db_provider.dart';
+import 'package:omar_s_application2/db/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
   static TextEditingController myControllerPin = TextEditingController();
@@ -64,6 +68,8 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
                                 Container(
                                   margin: getMargin(top: 10),
                                   child: PinCodeTextField(
+                                    obscureText: true,
+                                    keyboardType: TextInputType.number,
                                     pinTheme: PinTheme(
                                       shape: PinCodeFieldShape.box,
                                       inactiveColor: Colors.black26,
@@ -77,51 +83,69 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
                                     appContext: context,
                                     length: 6,
                                     boxShadows: [],
-                                    onChanged: (String value) {
-                                      print(myControllerPin.text);
-                                    },
+                                    onChanged: (String value) {},
                                     controller: myControllerPin,
                                   ),
                                 ),
                               ]))),
                   Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: getPadding(
-                        left: 35,
-                        top: 33,
-                        right: 35,
-                      ),
-                      child: Text(
-                        "msg_forgot_pin_code".tr,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
-                        style: AppStyle.txtPoppinsMedium16BlueA7004c.copyWith(
-                          height: 1.00,
-                        ),
-                      ),
-                    ),
-                  ),
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                          onTap: () async {
+                            SharedPreferences pref =
+                                await SharedPreferences.getInstance();
+
+                            String phone = pref.getString("number").toString();
+
+                            List list =
+                                await DatabaseProvider.db.getUser(phone);
+
+                            User user = (list[0] as User);
+
+                            myControllerPin.clear();
+
+                            onTapTxtForgotpincode(context, user.name, phone);
+                          },
+                          child: Padding(
+                              padding: getPadding(left: 25, top: 33, right: 25),
+                              child: Text("msg_forgot_pin_code".tr,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: AppStyle.txtPoppinsMedium16BlueA7004c
+                                      .copyWith(height: 1.00))))),
                   Align(
                     alignment: Alignment.center,
                     child: Container(
                       margin: getMargin(top: 100, bottom: 100),
                       child: ElevatedButton(
                         child: Text('login'.toUpperCase()),
-                        onPressed: () {
-                          if (validPin(myControllerPin.text.toString()))
-                            onTapBtnContinue();
-                          else
+                        onPressed: () async {
+                          //await onTapContinue(context);
+
+                          if (isValidPin(myControllerPin.text.toString())) {
+                            SharedPreferences pref =
+                                await SharedPreferences.getInstance();
+                            if (await isCorrectPin(pref.getString("number"),
+                                myControllerPin.text.toString())) {
+                              myControllerPin.clear();
+                              onTapBtnContinue();
+                            } else
+                              Alert(
+                                      type: AlertType.error,
+                                      context: context,
+                                      title: "Wrong PIN Code.")
+                                  .show();
+                          } else
                             Alert(
+                                    type: AlertType.error,
                                     context: context,
-                                    title: "ERROR",
-                                    desc: "Incomplete PIN Code.")
+                                    title: "Incomplete PIN Code.")
                                 .show();
                         },
                         style: ElevatedButton.styleFrom(
                             primary: Colour(0, 100, 254),
                             padding: EdgeInsets.symmetric(
-                                horizontal: 45, vertical: 7.5),
+                                horizontal: 102.5, vertical: 7.5),
                             textStyle: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 20,
@@ -138,6 +162,16 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
     );
   }
 
+  onTapTxtForgotpincode(BuildContext context, String firstName, String phone) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            VerfiyYourMobileScreen(firstName, "", "", phone, "Reset"),
+      ),
+    );
+  }
+
   onTapBtnContinue() {
     Get.toNamed(AppRoutes.homeScreen);
   }
@@ -146,10 +180,19 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
     Get.toNamed(AppRoutes.createPinCodeScreen);
   }
 
-  bool validPin(String PIN) {
+  bool isValidPin(String PIN) {
     if (PIN.length < 6)
       return false;
     else
       return true;
+  }
+
+  Future<bool> isCorrectPin(String? phone, String password) async {
+    List list = await DatabaseProvider.db.getUser(phone!);
+
+    if ((list[0] as User).password == password)
+      return true;
+    else
+      return false;
   }
 }

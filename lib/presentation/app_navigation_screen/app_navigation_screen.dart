@@ -1648,7 +1648,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
   }
 
   onTapSplashScreen() {
-    Get.toNamed(AppRoutes.splashScreen);
+    //Get.toNamed(AppRoutes.splashScreen);
   }
 
   onTapSuccessfulRequest() {

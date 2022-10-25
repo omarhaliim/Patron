@@ -3,6 +3,9 @@ import 'controller/create_an_account_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
 import 'package:omar_s_application2/presentation/verfiy_your_mobile_screen/verfiy_your_mobile_screen.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:omar_s_application2/widgets/progress_bar.dart';
+import 'package:omar_s_application2/db/db_provider.dart';
 
 class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
   static String CreateEnterPin = '/create_enter_pin';
@@ -12,241 +15,306 @@ class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
   final myControllerPhone = TextEditingController();
   final myControllerEmail = TextEditingController();
 
-  late final String FirstName;
-  late final String LastName;
-  late final String Phone;
-  late final String Email;
+  late String FirstName;
+  late String LastName;
+  late String Phone;
+  late String Email;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor: ColorConstant.gray100,
-            body: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                          padding: getPadding(left: 25, top: 65, right: 25),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                    onTap: () {
-                                      onTapImgArrowleft();
-                                    },
-                                    child: CommonImageView(
-                                        svgPath: ImageConstant.imgArrowleft,
-                                        height: getVerticalSize(14.00),
-                                        width: getHorizontalSize(16.00))),
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      SizedBox(
-                                        width: 175,
-                                        child: LinearProgressIndicator(
-                                          backgroundColor: Color(0xffabc9f8),
-                                          minHeight: 4,
-                                          value: 0.2,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ]))),
-                  Padding(
-                      padding: getPadding(left: 35, top: 54, right: 35),
-                      child: Text("msg_create_an_accou".tr,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppStyle.txtPoppinsMedium16Black900
-                              .copyWith(height: 1.00))),
-                  Padding(
-                      padding: getPadding(left: 35, top: 45, right: 35),
-                      child: Text("First Name".tr,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppStyle.txtPoppinsMedium16Gray9007f
-                              .copyWith(height: 1.00))),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: double.infinity,
-                      margin: getMargin(left: 34, top: 3, right: 34),
-                      decoration: AppDecoration.outlineGray90059.copyWith(
-                          borderRadius: BorderRadiusStyle.circleBorder2),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          TextField(
-                            keyboardType: TextInputType.name,
-                            controller: myControllerFirstName,
-                            autocorrect: false,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              border: OutlineInputBorder(),
+    return WillPopScope(
+      onWillPop: () async {
+        Get.toNamed(AppRoutes.startScreen);
+        return true;
+      },
+      child: SafeArea(
+          child: Scaffold(
+              backgroundColor: ColorConstant.gray100,
+              body: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ProgressBar(
+                      progress_indicator: 0.2,
+                      callback: onTapImgArrowleft,
+                    ),
+
+                    // Align(
+                    //     alignment: Alignment.centerLeft,
+                    //     child: Padding(
+                    //         padding: getPadding(
+                    //             left: 25, top: 40, right: 25, bottom: 40),
+                    //         child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //             children: [
+                    //               Container(
+                    //                 height: 50,
+                    //                 width: 50,
+                    //                 child: FloatingActionButton(
+                    //                     backgroundColor: ColorConstant.gray100,
+                    //                     foregroundColor: Colour(0, 100, 254),
+                    //                     onPressed: onTapImgArrowleft,
+                    //                     child: Icon(
+                    //                       Icons.arrow_back_outlined,
+                    //                       size: 30,
+                    //                     )),
+                    //               ),
+                    //               SizedBox(
+                    //                 width: 175,
+                    //                 child: LinearProgressIndicator(
+                    //                   backgroundColor: Color(0xffabc9f8),
+                    //                   minHeight: 4,
+                    //                   value: 0.2,
+                    //                 ),
+                    //               ),
+                    //               SizedBox(
+                    //                 width: 50,
+                    //               )
+                    //             ]))),
+                    Padding(
+                        padding: getPadding(left: 35, right: 35),
+                        child: Text("msg_create_an_accou".tr,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: AppStyle.txtPoppinsMedium16Black900
+                                .copyWith(height: 1.00))),
+                    Padding(
+                        padding: getPadding(left: 35, top: 45, right: 35),
+                        child: Text("First Name".tr,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: AppStyle.txtPoppinsMedium16Gray9007f
+                                .copyWith(height: 1.00))),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: double.infinity,
+                        margin: getMargin(left: 34, top: 3, right: 34),
+                        decoration: AppDecoration.outlineGray90059.copyWith(
+                            borderRadius: BorderRadiusStyle.circleBorder2),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            TextField(
+                              keyboardType: TextInputType.name,
+                              controller: myControllerFirstName,
+                              autocorrect: false,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                border: OutlineInputBorder(),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                      padding: getPadding(left: 35, top: 45, right: 35),
-                      child: Text("Last Name".tr,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppStyle.txtPoppinsMedium16Gray9007f
-                              .copyWith(height: 1.00))),
-                  Align(
+                    Padding(
+                        padding: getPadding(left: 35, top: 45, right: 35),
+                        child: Text("Last Name".tr,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: AppStyle.txtPoppinsMedium16Gray9007f
+                                .copyWith(height: 1.00))),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: double.infinity,
+                            margin: getMargin(left: 34, top: 3, right: 34),
+                            decoration: AppDecoration.outlineGray90059.copyWith(
+                                borderRadius: BorderRadiusStyle.circleBorder2),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  TextField(
+                                    keyboardType: TextInputType.name,
+                                    controller: myControllerLastName,
+                                    autocorrect: false,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ]))),
+                    Padding(
+                        padding: getPadding(left: 35, top: 47, right: 35),
+                        child: Text("lbl_email".tr,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: AppStyle.txtPoppinsMedium16Gray9007f
+                                .copyWith(height: 1.00))),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: double.infinity,
+                            margin: getMargin(left: 34, top: 4, right: 34),
+                            decoration: AppDecoration.outlineGray90059.copyWith(
+                                borderRadius: BorderRadiusStyle.circleBorder2),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  TextField(
+                                    keyboardType: TextInputType.emailAddress,
+                                    controller: myControllerEmail,
+                                    autocorrect: false,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ]))),
+                    Padding(
+                        padding: getPadding(left: 35, top: 47, right: 35),
+                        child: Text("lbl_mobile".tr,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: AppStyle.txtPoppinsMedium16Gray9007f
+                                .copyWith(height: 1.00))),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: double.infinity,
+                            margin: getMargin(left: 34, top: 4, right: 34),
+                            decoration: AppDecoration.outlineGray90059.copyWith(
+                                borderRadius: BorderRadiusStyle.circleBorder2),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  TextField(
+                                    keyboardType: TextInputType.number,
+                                    controller: myControllerPhone,
+                                    autocorrect: false,
+                                    decoration: InputDecoration(
+                                      hintText: 'ex: 01xxxxxxxxx',
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ]))),
+                    Align(
                       alignment: Alignment.center,
                       child: Container(
-                          width: double.infinity,
-                          margin: getMargin(left: 34, top: 3, right: 34),
-                          decoration: AppDecoration.outlineGray90059.copyWith(
-                              borderRadius: BorderRadiusStyle.circleBorder2),
-                          child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                TextField(
-                                  keyboardType: TextInputType.name,
-                                  controller: myControllerLastName,
-                                  autocorrect: false,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    border: OutlineInputBorder(),
+                        margin: getMargin(
+                            left: 34, top: 40, right: 34, bottom: 100),
+                        child: ElevatedButton(
+                          child: Text('continue'.toUpperCase()),
+                          onPressed: () async {
+                            FirstName = myControllerFirstName.text.toString();
+                            LastName = myControllerLastName.text.toString();
+                            Email = myControllerEmail.text.toString();
+                            Phone = myControllerPhone.text.toString();
+
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => VerfiyYourMobileScreen(
+                            //         FirstName, LastName, Email, Phone),
+                            //   ),
+                            // );
+
+                            if (FirstName.length == 0 ||
+                                LastName.length == 0 ||
+                                Email.length == 0 ||
+                                Phone.length == 0) {
+                              Alert(
+                                      type: AlertType.error,
+                                      context: context,
+                                      title:
+                                          "All of your personal information is required.")
+                                  .show();
+                            } else if (!isValidEmail(Email)) {
+                              Alert(
+                                      type: AlertType.error,
+                                      context: context,
+                                      title:
+                                          "Please make sure you've entered a valid email address.")
+                                  .show();
+                            } else if (!isValidPhoneNumber(Phone)) {
+                              Alert(
+                                      type: AlertType.error,
+                                      context: context,
+                                      title:
+                                          "Please make sure you've entered a valid mobile number.")
+                                  .show();
+                            } else if (await isExistingUser(Phone)) {
+                              Alert(
+                                context: context,
+                                type: AlertType.error,
+                                title:
+                                    "This mobile number is already registered. Sign in now?",
+                                buttons: [
+                                  DialogButton(
+                                    child: Text(
+                                      "SIGN IN",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: () => onTapBtnSignIn(),
+                                    color: Color.fromRGBO(0, 179, 134, 1.0),
                                   ),
+                                  DialogButton(
+                                    child: Text(
+                                      "CANCEL",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: () => Navigator.pop(context),
+                                    gradient: LinearGradient(colors: [
+                                      Color.fromRGBO(116, 116, 191, 1.0),
+                                      Color.fromRGBO(52, 138, 199, 1.0)
+                                    ]),
+                                  )
+                                ],
+                              ).show();
+                            } else {
+                              myControllerFirstName.clear();
+                              myControllerLastName.clear();
+                              myControllerEmail.clear();
+                              myControllerPhone.clear();
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VerfiyYourMobileScreen(
+                                      FirstName,
+                                      LastName,
+                                      Email,
+                                      Phone,
+                                      "Create"),
                                 ),
-                                // Container(
-                                //     height: getVerticalSize(33.00),
-                                //     width: getHorizontalSize(296.00),
-                                //     margin: getMargin(all: 4),
-                                //     decoration: BoxDecoration(
-                                //         borderRadius: BorderRadius.circular(
-                                //                     getHorizontalSize(4.00)))
-                                // )
-                              ]))),
-                  Padding(
-                      padding: getPadding(left: 35, top: 47, right: 35),
-                      child: Text("lbl_email".tr,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppStyle.txtPoppinsMedium16Gray9007f
-                              .copyWith(height: 1.00))),
-                  Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                          width: double.infinity,
-                          margin: getMargin(left: 34, top: 4, right: 34),
-                          decoration: AppDecoration.outlineGray90059.copyWith(
-                              borderRadius: BorderRadiusStyle.circleBorder2),
-                          child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                TextField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: myControllerEmail,
-                                  autocorrect: false,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                                // Container(
-                                //     height: getVerticalSize(33.00),
-                                //     width: getHorizontalSize(296.00),
-                                //     margin: getMargin(all: 4),
-                                //     decoration: BoxDecoration(
-                                //         borderRadius: BorderRadius.circular(
-                                //             getHorizontalSize(4.00))))
-                              ]))),
-                  Padding(
-                      padding: getPadding(left: 35, top: 47, right: 35),
-                      child: Text("lbl_mobile".tr,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppStyle.txtPoppinsMedium16Gray9007f
-                              .copyWith(height: 1.00))),
-                  Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                          width: double.infinity,
-                          margin: getMargin(left: 34, top: 4, right: 34),
-                          decoration: AppDecoration.outlineGray90059.copyWith(
-                              borderRadius: BorderRadiusStyle.circleBorder2),
-                          child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                TextField(
-                                  keyboardType: TextInputType.number,
-                                  controller: myControllerPhone,
-                                  autocorrect: false,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                                // Container(
-                                //     height: getVerticalSize(33.00),
-                                //     width: getHorizontalSize(296.00),
-                                //     margin: getMargin(all: 4),
-                                //     decoration: BoxDecoration(
-                                //         borderRadius: BorderRadius.circular(
-                                //             getHorizontalSize(4.00))))
-                              ]))),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      margin:
-                          getMargin(left: 34, top: 40, right: 34, bottom: 100),
-                      child: ElevatedButton(
-                        child: Text('continue'.toUpperCase()),
-                        onPressed: () {
-                          FirstName = myControllerFirstName.text.toString();
-                          LastName = myControllerLastName.text.toString();
-                          Email = myControllerEmail.text.toString();
-                          Phone = myControllerPhone.text.toString();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => VerfiyYourMobileScreen(
-                                  FirstName, LastName, Email, Phone),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colour(0, 100, 254),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 85, vertical: 7.5),
+                            textStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
                             ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colour(0, 100, 254),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 85, vertical: 7.5),
-                          textStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 20,
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )));
+                  ],
+                ),
+              ))),
+    );
   }
 
   onTapImgArrowleft() {
@@ -255,5 +323,49 @@ class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
 
   onTapBtnContinue() {
     Get.toNamed(AppRoutes.verfiyYourMobileScreen);
+  }
+
+  onTapBtnSignIn() {
+    Get.toNamed(AppRoutes.signInScreen);
+  }
+
+  bool isValidEmail(String email) {
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+  }
+
+  bool isValidPhoneNumber(String number) {
+    if (number.length == 0) {
+      return false;
+    }
+    if (number.length < 11 || number.length > 11) {
+      return false;
+    }
+    if (number.length >= 3) {
+      if ('${number[0]}' != '0') {
+        return false;
+      }
+      if ('${number[1]}' != '1') {
+        return false;
+      }
+
+      if ('${number[2]}' != '0' &&
+          '${number[2]}' != '1' &&
+          '${number[2]}' != '2' &&
+          '${number[2]}' != '5') {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  Future<bool> isExistingUser(String number) async {
+    List list = await DatabaseProvider.db.getUser(number);
+
+    if (list.length >= 1)
+      return true;
+    else
+      return false;
   }
 }

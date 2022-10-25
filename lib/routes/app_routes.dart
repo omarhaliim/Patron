@@ -1,3 +1,5 @@
+import 'package:omar_s_application2/presentation/settings_screen/binding/settings_binding.dart';
+import 'package:omar_s_application2/presentation/settings_screen/settings_screen.dart';
 import 'package:omar_s_application2/presentation/splash_screen/splash_screen.dart';
 import 'package:omar_s_application2/presentation/splash_screen/binding/splash_binding.dart';
 import 'package:omar_s_application2/presentation/successful_request_screen/successful_request_screen.dart';
@@ -78,7 +80,7 @@ import 'package:omar_s_application2/presentation/test_screen/binding/test_bindin
 class AppRoutes {
   static String CreateEnterPin = '/create_enter_pin';
 
-  static String splashScreen = '/splash_screen';
+  //static String splashScreen = '/splash_screen';
 
   static String successfulRequestScreen = '/successful_request_screen';
 
@@ -115,6 +117,8 @@ class AppRoutes {
   static String successfulAccountScreen = '/successful_account_screen';
 
   static String signInEnterPinOneScreen = '/sign_in_enter_pin_one_screen';
+
+  static String settingsScreen = '/settings_screen';
 
   static String homeScreen = '/home_screen';
 
@@ -162,13 +166,13 @@ class AppRoutes {
     //     CreateEnterPinBinding(),
     //   ],
     // ),
-    GetPage(
-      name: splashScreen,
-      page: () => SplashScreen(),
-      bindings: [
-        SplashBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: splashScreen,
+    //   page: () => SplashScreen(),
+    //   bindings: [
+    //     SplashBinding(),
+    //   ],
+    // ),
     GetPage(
       name: successfulRequestScreen,
       page: () => SuccessfulRequestScreen(),
@@ -295,6 +299,14 @@ class AppRoutes {
         SignInEnterPinOneBinding(),
       ],
     ),
+
+    GetPage(
+      name: settingsScreen,
+      page: () => SettingsScreen(),
+      bindings: [
+        SettingsBinding(),
+      ],
+    ),
     // GetPage(
     //   name: signInEnterOtpScreen,
     //   page: () => SignInEnterOtpScreen(),
@@ -407,13 +419,13 @@ class AppRoutes {
         AppNavigationBinding(),
       ],
     ),
-    GetPage(
-      name: initialRoute,
-      page: () => SplashScreen(),
-      bindings: [
-        SplashBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: initialRoute,
+    //   page: () => SplashScreen(),
+    //   bindings: [
+    //     SplashBinding(),
+    //   ],
+    // ),
 
     GetPage(
       name: testScreen,

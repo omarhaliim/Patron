@@ -25,18 +25,39 @@ class TestScreen extends GetWidget<TestController> {
   }
 
   onTapTestScreen() async {
-    User user = User(
-        nymID: "nymID1",
-        name: 'Ashraf',
-        password: '123456',
-        phone: '01096143191',
-        accountStatus: 'Potential',
-        loginStatus: 'SignedOut');
-    //
-    await DatabaseProvider.db.insert(user);
-    // print('User updated successfully');
+    // User user = User(
+    //     nymID: "1c47a0ea-c3a9-4f9a-84ea-52ef1aaa4cc8",
+    //     name: 'Halim',
+    //     password: '123456',
+    //     phone: '01111111111',
+    //     accountStatus: 'Potential',
+    //     loginStatus: 'SignedOut');
+    // //
+    // await DatabaseProvider.db.insert(user);
+    // // // print('User updated successfully');
+    // //
+    List list = await DatabaseProvider.db.getUser("01553490803");
+    print((list[0] as User).password);
+    //print(list.length);
+    // await DatabaseProvider.db.delete(2);
+    // await DatabaseProvider.db.delete(3);
 
-    List list = await DatabaseProvider.db.getUsers();
-    print(list.length);
+    // (list[0] as User).password = "123456";
+    // await DatabaseProvider.db.update((list[0] as User));
+    //
+    // list = await DatabaseProvider.db.getUser("01553490808");
+    // print((list[0] as User).password);
+    // print(list.length);
+
+    //await DatabaseProvider.db.dropTable();
+
+    // await DatabaseProvider.db.createDatabase();
+
+    // DatabaseProvider.db.nullifyDB();
+    //
+    //print(DatabaseProvider.db.getDB());
+    //
+    // await DatabaseProvider.db.deleteDatabase(
+    //     '/data/user/0/com.omarsapplication.app/databases/userDB.db');
   }
 }
