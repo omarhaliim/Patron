@@ -118,7 +118,7 @@ class AppRoutes {
 
   static String signInEnterPinOneScreen = '/sign_in_enter_pin_one_screen';
 
-  static String settingsScreen = '/settings_screen';
+  //static String settingsScreen = '/settings_screen';
 
   static String homeScreen = '/home_screen';
 
@@ -300,13 +300,13 @@ class AppRoutes {
       ],
     ),
 
-    GetPage(
-      name: settingsScreen,
-      page: () => SettingsScreen(),
-      bindings: [
-        SettingsBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: settingsScreen,
+    //   page: () => SettingsScreen(),
+    //   bindings: [
+    //     SettingsBinding(),
+    //   ],
+    // ),
     // GetPage(
     //   name: signInEnterOtpScreen,
     //   page: () => SignInEnterOtpScreen(),

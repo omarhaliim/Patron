@@ -41,39 +41,6 @@ class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
                       progress_indicator: 0.2,
                       callback: onTapImgArrowleft,
                     ),
-
-                    // Align(
-                    //     alignment: Alignment.centerLeft,
-                    //     child: Padding(
-                    //         padding: getPadding(
-                    //             left: 25, top: 40, right: 25, bottom: 40),
-                    //         child: Row(
-                    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //             children: [
-                    //               Container(
-                    //                 height: 50,
-                    //                 width: 50,
-                    //                 child: FloatingActionButton(
-                    //                     backgroundColor: ColorConstant.gray100,
-                    //                     foregroundColor: Colour(0, 100, 254),
-                    //                     onPressed: onTapImgArrowleft,
-                    //                     child: Icon(
-                    //                       Icons.arrow_back_outlined,
-                    //                       size: 30,
-                    //                     )),
-                    //               ),
-                    //               SizedBox(
-                    //                 width: 175,
-                    //                 child: LinearProgressIndicator(
-                    //                   backgroundColor: Color(0xffabc9f8),
-                    //                   minHeight: 4,
-                    //                   value: 0.2,
-                    //                 ),
-                    //               ),
-                    //               SizedBox(
-                    //                 width: 50,
-                    //               )
-                    //             ]))),
                     Padding(
                         padding: getPadding(left: 35, right: 35),
                         child: Text("msg_create_an_accou".tr,

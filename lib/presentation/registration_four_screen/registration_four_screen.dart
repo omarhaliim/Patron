@@ -21,11 +21,8 @@ class RegistrationFourScreen extends GetWidget<RegistrationFourController> {
                 key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Container(
-                    margin: getMargin(left: 14, top: 15, right: 14),
+                    margin: getMargin(left: 15, right: 15),
                     child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
                               width: size.width,

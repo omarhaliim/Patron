@@ -106,6 +106,8 @@ class ImageConstant {
 
   static String imgLocation = 'assets/images/img_location.svg';
 
+  static String imgPatron = 'assets/images/img_patron.png';
+
   static String imgComputer14X12 = 'assets/images/img_computer_14X12.svg';
 
   static String imgFavorite = 'assets/images/img_favorite.svg';

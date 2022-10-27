@@ -10,13 +10,17 @@ import 'package:omar_s_application2/db/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends GetWidget<SettingsController> {
+  late final String page_name;
+
+  SettingsScreen(this.page_name);
+
   var number;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.toNamed(AppRoutes.homeScreen);
+        onTapBack();
         return true;
       },
       child: SafeArea(
@@ -93,5 +97,33 @@ class SettingsScreen extends GetWidget<SettingsController> {
         builder: (context) => SplashScreen(number),
       ),
     );
+  }
+
+  onTapBack() {
+    switch (page_name) {
+      case "home":
+        Get.toNamed(AppRoutes.homeScreen);
+        break;
+      case "school_fees":
+        Get.toNamed(AppRoutes.schoolFeesScreen);
+        break;
+      case "tuition_fees":
+        Get.toNamed(AppRoutes.tutionFeesScreen);
+        break;
+      case "school_pay_later_screen":
+        Get.toNamed(AppRoutes.schoolPayLaterScreen);
+        break;
+      case "university_fees":
+        Get.toNamed(AppRoutes.universityFeesScreen);
+        break;
+      case "university_pay_later_screen":
+        Get.toNamed(AppRoutes.universityPayLaterScreen);
+        break;
+      case "add_money":
+        Get.toNamed(AppRoutes.addMoneyScreen);
+        break;
+      default:
+        break;
+    }
   }
 }
