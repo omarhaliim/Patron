@@ -209,7 +209,7 @@ class _UniversityFeesScreenState extends State<UniversityFeesScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SettingsScreen(page_name),
+        builder: (context) => SettingsScreen(page_name, ""),
       ),
     );
   }

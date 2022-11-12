@@ -212,7 +212,7 @@ class UniversityPayLaterScreen extends GetWidget<UniversityPayLaterController> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SettingsScreen(page_name),
+        builder: (context) => SettingsScreen(page_name, ""),
       ),
     );
   }

@@ -185,14 +185,6 @@ class CreateAnAccountScreen extends GetWidget<CreateAnAccountController> {
                             Email = myControllerEmail.text.toString();
                             Phone = myControllerPhone.text.toString();
 
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => VerfiyYourMobileScreen(
-                            //         FirstName, LastName, Email, Phone),
-                            //   ),
-                            // );
-
                             if (FirstName.length == 0 ||
                                 LastName.length == 0 ||
                                 Email.length == 0 ||

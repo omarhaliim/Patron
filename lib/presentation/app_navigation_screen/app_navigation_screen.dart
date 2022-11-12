@@ -782,7 +782,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                     ]))),
                                         GestureDetector(
                                             onTap: () {
-                                              onTapRegistrationFour();
+                                              //onTapRegistrationFour();
                                             },
                                             child: Container(
                                                 width: size.width,
@@ -1405,7 +1405,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                     ]))),
                                         GestureDetector(
                                             onTap: () {
-                                              onTapAddCard();
+                                              // onTapAddCard();
                                             },
                                             child: Container(
                                                 width: size.width,
@@ -1706,10 +1706,10 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
   onTapRegistration3Two() {
     Get.toNamed(AppRoutes.registration3TwoScreen);
   }
-
-  onTapRegistrationFour() {
-    Get.toNamed(AppRoutes.registrationFourScreen);
-  }
+  //
+  // onTapRegistrationFour() {
+  //   Get.toNamed(AppRoutes.registrationFourScreen);
+  // }
 
   onTapCreatePINCode() {
     Get.toNamed(AppRoutes.createPinCodeScreen);
@@ -1759,9 +1759,9 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
     Get.toNamed(AppRoutes.addMoneyScreen);
   }
 
-  onTapAddCard() {
-    Get.toNamed(AppRoutes.addCardScreen);
-  }
+  // onTapAddCard() {
+  //   Get.toNamed(AppRoutes.addCardScreen);
+  // }
 
   onTapSchoolFees() {
     Get.toNamed(AppRoutes.schoolFeesScreen);

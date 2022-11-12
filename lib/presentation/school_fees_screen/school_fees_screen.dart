@@ -195,7 +195,7 @@ class _SchoolFeesScreenState extends State<SchoolFeesScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SettingsScreen(page_name),
+        builder: (context) => SettingsScreen(page_name, ""),
       ),
     );
   }

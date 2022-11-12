@@ -211,7 +211,7 @@ class TutionFeesScreen extends GetWidget<TutionFeesController> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SettingsScreen(page_name),
+        builder: (context) => SettingsScreen(page_name, ""),
       ),
     );
   }

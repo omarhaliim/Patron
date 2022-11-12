@@ -367,6 +367,6 @@ class CreditScreen extends GetWidget<CreditController> {
   }
 
   onTapBtnPay() {
-    Get.toNamed(AppRoutes.addCardScreen);
+    // Get.toNamed(AppRoutes.addCardScreen);
   }
 }

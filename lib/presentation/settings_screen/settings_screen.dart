@@ -1,5 +1,6 @@
 import 'package:omar_s_application2/presentation/splash_screen/splash_screen.dart';
 
+import '../add_card_screen/add_card_screen.dart';
 import 'controller/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
@@ -11,8 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends GetWidget<SettingsController> {
   late final String page_name;
+  late final String user_name;
 
-  SettingsScreen(this.page_name);
+  SettingsScreen(this.page_name, this.user_name);
 
   var number;
 
@@ -20,7 +22,7 @@ class SettingsScreen extends GetWidget<SettingsController> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        onTapBack();
+        onTapBack(context);
         return true;
       },
       child: SafeArea(
@@ -99,7 +101,7 @@ class SettingsScreen extends GetWidget<SettingsController> {
     );
   }
 
-  onTapBack() {
+  onTapBack(BuildContext context) {
     switch (page_name) {
       case "home":
         Get.toNamed(AppRoutes.homeScreen);
@@ -121,6 +123,16 @@ class SettingsScreen extends GetWidget<SettingsController> {
         break;
       case "add_money":
         Get.toNamed(AppRoutes.addMoneyScreen);
+        break;
+      case "add_card":
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddCardScreen(
+              user_name: this.user_name,
+            ),
+          ),
+        );
         break;
       default:
         break;

@@ -212,7 +212,7 @@ class SchoolPayLaterScreen extends GetWidget<SchoolPayLaterController> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SettingsScreen(page_name),
+        builder: (context) => SettingsScreen(page_name, ""),
       ),
     );
   }

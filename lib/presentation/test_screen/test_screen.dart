@@ -5,7 +5,36 @@ import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
 import 'package:omar_s_application2/db/db_provider.dart';
 
-class TestScreen extends GetWidget<TestController> {
+import 'package:intl/intl.dart';
+import 'dart:io';
+
+import 'package:omar_s_application2/configs/image_picker_configs.dart';
+
+/// Image model.
+import 'package:omar_s_application2/models/image_object.dart';
+
+/// Image utilities.
+import 'package:omar_s_application2/utils/image_utils.dart';
+
+/// Preset image editors
+import 'package:omar_s_application2/widgets/image_picker/editors/editor_params.dart';
+import 'package:omar_s_application2/widgets/image_picker/editors/image_edit.dart';
+import 'package:omar_s_application2/widgets/image_picker/editors/image_filter.dart';
+import 'package:omar_s_application2/widgets/image_picker/editors/image_sticker.dart';
+
+/// Advanced image picker widget.
+import 'package:omar_s_application2/widgets/image_picker/picker/image_picker.dart';
+
+class TestScreen extends StatefulWidget {
+  const TestScreen({Key? key}) : super(key: key);
+
+  @override
+  State<TestScreen> createState() => _TestScreenState();
+}
+
+class _TestScreenState extends State<TestScreen> {
+  List<ImageObject> _imgObjs = [];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,8 +65,8 @@ class TestScreen extends GetWidget<TestController> {
     // await DatabaseProvider.db.insert(user);
     // // // print('User updated successfully');
     // //
-    List list = await DatabaseProvider.db.getUser("01553490803");
-    print((list[0] as User).password);
+    // List list = await DatabaseProvider.db.getUser("01553490803");
+    // print((list[0] as User).password);
     //print(list.length);
     // await DatabaseProvider.db.delete(2);
     // await DatabaseProvider.db.delete(3);

@@ -77,6 +77,9 @@ import 'package:omar_s_application2/presentation/create_enter_pin/binding/create
 import 'package:omar_s_application2/presentation/test_screen/test_screen.dart';
 import 'package:omar_s_application2/presentation/test_screen/binding/test_binding.dart';
 
+import '../presentation/registration_five_screen/binding/registration_five_binding.dart';
+import '../presentation/registration_five_screen/registration_five_screen.dart';
+
 class AppRoutes {
   static String CreateEnterPin = '/create_enter_pin';
 
@@ -110,7 +113,7 @@ class AppRoutes {
 
   static String registration3TwoScreen = '/registration_3_two_screen';
 
-  static String registrationFourScreen = '/registration_four_screen';
+  static String registrationFiveScreen = '/registration_five_screen';
 
   static String createPinCodeScreen = '/create_pin_code_screen';
 
@@ -140,7 +143,7 @@ class AppRoutes {
 
   static String addMoneyScreen = '/add_money_screen';
 
-  static String addCardScreen = '/add_card_screen';
+  //static String addCardScreen = '/add_card_screen';
 
   static String schoolFeesScreen = '/school_fees_screen';
 
@@ -272,10 +275,10 @@ class AppRoutes {
       ],
     ),
     GetPage(
-      name: registrationFourScreen,
-      page: () => RegistrationFourScreen(),
+      name: registrationFiveScreen,
+      page: () => RegistrationFiveScreen(),
       bindings: [
-        RegistrationFourBinding(),
+        RegistrationFiveBinding(),
       ],
     ),
     // GetPage(
@@ -377,13 +380,13 @@ class AppRoutes {
         AddMoneyBinding(),
       ],
     ),
-    GetPage(
-      name: addCardScreen,
-      page: () => AddCardScreen(),
-      bindings: [
-        AddCardBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: addCardScreen,
+    //   page: () => AddCardScreen(),
+    //   bindings: [
+    //     AddCardBinding(),
+    //   ],
+    // ),
     GetPage(
       name: schoolFeesScreen,
       page: () => SchoolFeesScreen(),

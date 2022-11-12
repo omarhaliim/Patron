@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:omar_s_application2/presentation/create_an_account_screen/create_an_account_screen.dart';
 import 'package:omar_s_application2/presentation/registration_three_screen/registration_three_screen.dart';
+import 'package:omar_s_application2/presentation/settings_screen/settings_screen.dart';
 import 'package:omar_s_application2/presentation/sign_in_enter_pin_one_screen/sign_in_enter_pin_one_screen.dart';
 import 'package:omar_s_application2/presentation/splash_screen/splash_screen.dart';
 import 'package:omar_s_application2/presentation/start_screen/start_screen.dart';
@@ -79,8 +80,8 @@ class _MainAppState extends State<MyApp> with WidgetsBindingObserver {
       title: 'Patron',
       initialBinding: InitialBindings(),
       home: SplashScreen(number),
-      // home: TestScreen(),
       // home: RegistrationThreeScreen(),
+      // home: SettingsScreen("add_money"),
       getPages: AppRoutes.pages,
     );
   }

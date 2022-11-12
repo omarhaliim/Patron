@@ -8,6 +8,7 @@ import 'package:omar_s_application2/models/transactions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:omar_s_application2/db/user.dart';
 
+import '../add_card_screen/add_card_screen.dart';
 import '../settings_screen/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Transactions> transactions = [];
 
+  String username = "";
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Transactions("Transfer to Ahmed", "2022.05.04", "-2500 EGP");
       transactions.add(t);
     }
-    print(transactions.length);
   }
 
   @override
@@ -109,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: FutureBuilder(
                       future: getUserName(),
                       builder: (context, snapshot) {
-                        String username = "";
+                        username = "";
                         if (snapshot.hasData) {
                           username = snapshot.data.toString();
                         }
@@ -194,145 +196,42 @@ class _HomeScreenState extends State<HomeScreen> {
                         const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
                     child: Row(
                       children: [
-                        Container(
-                          margin: getMargin(left: 5, right: 5),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              OnTapRequestPatronCard();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100, 125),
-                                primary: Colour(0, 100, 254),
-                                onPrimary: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 0, vertical: 10),
-                                textStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                )),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: getMargin(bottom: 10),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: CommonImageView(
-                                      svgPath: ImageConstant.imgComputer21X29,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Request\nPatron\nCard'.toUpperCase(),
-                                  style: TextStyle(fontSize: 14.3),
-                                )
-                              ],
-                            ),
-                          ),
+                        FutureBuilder(
+                          future: getUserStatus(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data.toString() == "Potential")
+                                return getRequestButton();
+                            }
+                            return Text('');
+                          },
                         ),
-                        Container(
-                          margin: getMargin(left: 5, right: 5),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              OnTapTutionFees();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100, 125),
-                                primary: Colors.white,
-                                onPrimary: Colors.black,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 0, vertical: 10),
-                                textStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                )),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: getMargin(bottom: 10),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: CommonImageView(
-                                      svgPath: ImageConstant.imgVector,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'tuition \nfees'.toUpperCase(),
-                                  style: TextStyle(fontSize: 20),
-                                )
-                              ],
-                            ),
-                          ),
+                        FutureBuilder(
+                          future: getUserStatus(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return getTuitionButton();
+                            }
+                            return Text('');
+                          },
                         ),
-                        Container(
-                          margin: getMargin(left: 5, right: 5),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              OnTapAddMoney();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100, 125),
-                                primary: Colors.black,
-                                onPrimary: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 0, vertical: 10),
-                                textStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                )),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: getMargin(bottom: 10),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: CommonImageView(
-                                      svgPath: ImageConstant.imgPlus,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'add \nmoney'.toUpperCase(),
-                                  style: TextStyle(fontSize: 20),
-                                )
-                              ],
-                            ),
-                          ),
+                        FutureBuilder(
+                          future: getUserStatus(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return getMoneyButton();
+                            }
+                            return Text('');
+                          },
                         ),
-                        Container(
-                          margin: getMargin(left: 5, right: 5),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              OnTapAddCard();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100, 125),
-                                primary: Colour(0, 100, 254),
-                                onPrimary: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 0, vertical: 10),
-                                textStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                )),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: getMargin(bottom: 10),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: CommonImageView(
-                                      svgPath: ImageConstant.imgComputer21X29,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'add \ncard'.toUpperCase(),
-                                  style: TextStyle(fontSize: 20),
-                                )
-                              ],
-                            ),
-                          ),
+                        FutureBuilder(
+                          future: getUserStatus(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return getCardButton();
+                            }
+                            return Text('');
+                          },
                         ),
                       ],
                     ),
@@ -551,20 +450,454 @@ class _HomeScreenState extends State<HomeScreen> {
     Get.toNamed(AppRoutes.addMoneyScreen);
   }
 
-  OnTapAddCard() {
-    Get.toNamed(AppRoutes.addCardScreen);
+  OnTapAddCard(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddCardScreen(user_name: this.username),
+      ),
+    );
   }
 
   OnTapSettings(BuildContext context, String page_name) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SettingsScreen(page_name),
+        builder: (context) => SettingsScreen(page_name, ""),
       ),
     );
   }
 
   OnTapRequestPatronCard() {
-    // Get.toNamed(AppRoutes.addCardScreen);
+    Get.toNamed(AppRoutes.registrationThreeScreen);
+  }
+
+  Future<String> getUserStatus() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    List list = await DatabaseProvider.db.getUser(pref.getString("number")!);
+    return (list[0] as User).accountStatus;
+  }
+
+  List<Widget> getButtons() {
+    List<Widget> list = [];
+    list.add(
+      Container(
+        margin: getMargin(left: 7, right: 7),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapTutionFees();
+          },
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(100, 125),
+              primary: Colors.white,
+              onPrimary: Colors.black,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    svgPath: ImageConstant.imgVector,
+                  ),
+                ),
+              ),
+              Text(
+                'tuition \nfees'.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    list.add(
+      Container(
+        margin: getMargin(left: 7, right: 7),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapAddMoney();
+          },
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(100, 125),
+              primary: Colors.black,
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    svgPath: ImageConstant.imgPlus,
+                  ),
+                ),
+              ),
+              Text(
+                'add \nmoney'.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    list.add(
+      Container(
+        margin: getMargin(left: 7, right: 0),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapAddCard(context);
+          },
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(100, 125),
+              primary: Colour(0, 100, 254),
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    svgPath: ImageConstant.imgComputer21X29,
+                  ),
+                ),
+              ),
+              Text(
+                'add \ncard'.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    return list;
+  }
+
+  List<Widget> getAllButtons() {
+    List<Widget> list = [];
+
+    list.add(
+      Container(
+        margin: getMargin(left: 0, right: 7),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapRequestPatronCard();
+          },
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(100, 125),
+              primary: Colour(0, 100, 254),
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    imagePath: ImageConstant.imgPatron,
+                    height: 30,
+                    width: 30,
+                  ),
+                ),
+              ),
+              Text(
+                'Request\nPatron\nCard'.toUpperCase(),
+                style: TextStyle(fontSize: 14.3),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    list.add(
+      Container(
+        margin: getMargin(left: 7, right: 7),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapTutionFees();
+          },
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(100, 125),
+              primary: Colors.white,
+              onPrimary: Colors.black,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    svgPath: ImageConstant.imgVector,
+                  ),
+                ),
+              ),
+              Text(
+                'tuition \nfees'.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    list.add(
+      Container(
+        margin: getMargin(left: 7, right: 7),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapAddMoney();
+          },
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(100, 125),
+              primary: Colors.black,
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    svgPath: ImageConstant.imgPlus,
+                  ),
+                ),
+              ),
+              Text(
+                'add \nmoney'.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    list.add(
+      Container(
+        margin: getMargin(left: 7, right: 0),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapAddCard(context);
+          },
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(100, 125),
+              primary: Colour(0, 100, 254),
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    svgPath: ImageConstant.imgComputer21X29,
+                  ),
+                ),
+              ),
+              Text(
+                'add \ncard'.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+
+    return list;
+  }
+
+  Widget getRequestButton() {
+    return Container(
+      margin: getMargin(left: 0, right: 7),
+      child: ElevatedButton(
+        onPressed: () {
+          OnTapRequestPatronCard();
+        },
+        style: ElevatedButton.styleFrom(
+            fixedSize: Size(100, 125),
+            primary: Colour(0, 100, 254),
+            onPrimary: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+            textStyle: TextStyle(
+              fontFamily: 'Poppins',
+            )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: getMargin(bottom: 10),
+              child: Align(
+                alignment: Alignment.center,
+                child: CommonImageView(
+                  imagePath: ImageConstant.imgPatron,
+                  height: 30,
+                  width: 30,
+                ),
+              ),
+            ),
+            Text(
+              'Request\nPatron\nCard'.toUpperCase(),
+              style: TextStyle(fontSize: 14.3),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getMoneyButton() {
+    return Container(
+      margin: getMargin(left: 7, right: 7),
+      child: ElevatedButton(
+        onPressed: () {
+          OnTapAddMoney();
+        },
+        style: ElevatedButton.styleFrom(
+            fixedSize: Size(100, 125),
+            primary: Colors.black,
+            onPrimary: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+            textStyle: TextStyle(
+              fontFamily: 'Poppins',
+            )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: getMargin(bottom: 10),
+              child: Align(
+                alignment: Alignment.center,
+                child: CommonImageView(
+                  svgPath: ImageConstant.imgPlus,
+                ),
+              ),
+            ),
+            Text(
+              'add \nmoney'.toUpperCase(),
+              style: TextStyle(fontSize: 20),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getTuitionButton() {
+    return Container(
+      margin: getMargin(left: 7, right: 7),
+      child: ElevatedButton(
+        onPressed: () {
+          OnTapTutionFees();
+        },
+        style: ElevatedButton.styleFrom(
+            fixedSize: Size(100, 125),
+            primary: Colors.white,
+            onPrimary: Colors.black,
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+            textStyle: TextStyle(
+              fontFamily: 'Poppins',
+            )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: getMargin(bottom: 10),
+              child: Align(
+                alignment: Alignment.center,
+                child: CommonImageView(
+                  svgPath: ImageConstant.imgVector,
+                ),
+              ),
+            ),
+            Text(
+              'tuition \nfees'.toUpperCase(),
+              style: TextStyle(fontSize: 20),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getCardButton() {
+    return Container(
+      margin: getMargin(left: 7, right: 0),
+      child: ElevatedButton(
+        onPressed: () {
+          OnTapAddCard(context);
+        },
+        style: ElevatedButton.styleFrom(
+            fixedSize: Size(100, 125),
+            primary: Colour(0, 100, 254),
+            onPrimary: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+            textStyle: TextStyle(
+              fontFamily: 'Poppins',
+            )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: getMargin(bottom: 10),
+              child: Align(
+                alignment: Alignment.center,
+                child: CommonImageView(
+                  svgPath: ImageConstant.imgComputer21X29,
+                ),
+              ),
+            ),
+            Text(
+              'add \ncard'.toUpperCase(),
+              style: TextStyle(fontSize: 20),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
