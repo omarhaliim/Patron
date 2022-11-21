@@ -22,16 +22,27 @@ class StartScreen extends GetWidget<StartController> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                margin: getMargin(top: 200),
-                child: Text(
-                  "msg_start_by_creati".tr,
-                  maxLines: null,
-                  textAlign: TextAlign.center,
-                  style: AppStyle.txtPoppinsSemiBold32Black900
-                      .copyWith(height: 1.41),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: getMargin(left: 50, right: 50),
+                    child: CommonImageView(
+                      imagePath: ImageConstant.imgPatronLogo,
+                    ),
+                  ),
                 ),
               ),
+              // Container(
+              //   margin: getMargin(top: 200),
+              //   child: Text(
+              //     "welcome to patron".toUpperCase(),
+              //     maxLines: null,
+              //     textAlign: TextAlign.center,
+              //     style: AppStyle.txtPoppinsSemiBold32Black900
+              //         .copyWith(height: 1.41),
+              //   ),
+              // ),
               Container(
                 margin: getMargin(bottom: 100),
                 child: Column(
@@ -43,6 +54,9 @@ class StartScreen extends GetWidget<StartController> {
                         //onTapTestScreen();
                       },
                       style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                           primary: Colour(0, 100, 254),
                           padding: EdgeInsets.symmetric(
                               horizontal: 45, vertical: 7.5),
@@ -60,6 +74,9 @@ class StartScreen extends GetWidget<StartController> {
                         onTapBtnSignInScreen();
                       },
                       style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                           primary: Colors.white,
                           onPrimary: Colour(0, 100, 254),
                           padding: EdgeInsets.symmetric(

@@ -9,6 +9,7 @@ import 'package:omar_s_application2/presentation/sign_in_enter_pin_one_screen/si
 import 'package:omar_s_application2/presentation/splash_screen/splash_screen.dart';
 import 'package:omar_s_application2/presentation/start_screen/start_screen.dart';
 import 'package:omar_s_application2/presentation/test_screen/test_screen.dart';
+import 'package:omar_s_application2/presentation/transfer_screen/transfer_screen.dart';
 import 'core/app_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:omar_s_application2/presentation/sign_in_enter_pin_screen/sign_in_enter_pin_screen.dart';
@@ -80,8 +81,8 @@ class _MainAppState extends State<MyApp> with WidgetsBindingObserver {
       title: 'Patron',
       initialBinding: InitialBindings(),
       home: SplashScreen(number),
-      // home: RegistrationThreeScreen(),
-      // home: SettingsScreen("add_money"),
+      // home: TestScreen(),
+      // home: SettingsScreen("add_money", ""),
       getPages: AppRoutes.pages,
     );
   }

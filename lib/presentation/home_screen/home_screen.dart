@@ -1,15 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:omar_s_application2/core/app_export.dart';
 import 'package:colour/colour.dart';
 import 'package:omar_s_application2/db/db_provider.dart';
 import 'package:omar_s_application2/models/transactions.dart';
+import 'package:omar_s_application2/presentation/add_money_screen/add_money_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:omar_s_application2/db/user.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../add_card_screen/add_card_screen.dart';
 import '../settings_screen/settings_screen.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,12 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Transactions> transactions = [];
 
   String username = "";
+  bool isLocked = true;
+  String available_balance = "";
 
   @override
   void initState() {
     super.initState();
 
-    for (int i = 0; i < 6; i++) {
+    isLocked = true;
+    available_balance = "";
+
+    for (int i = 0; i < 0; i++) {
       Transactions t =
           Transactions("Transfer to Ahmed", "2022.05.04", "-2500 EGP");
       transactions.add(t);
@@ -59,8 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CommonImageView(
-                        svgPath: ImageConstant.imgMusic,
+                      GestureDetector(
+                        onTap: () {
+                          OnTapSupport();
+                        },
+                        child: CommonImageView(
+                          svgPath: ImageConstant.imgMusic,
+                        ),
                       ),
                       SizedBox(
                         width: 15,
@@ -117,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
 
                         return Text(
-                          username,
+                          username.toUpperCase(),
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -139,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     margin: getMargin(
                       left: 5,
-                      top: 26,
+                      top: 15,
                       right: 10,
                     ),
                     decoration: BoxDecoration(
@@ -154,85 +168,76 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Padding(
-                          padding: getPadding(
-                            top: 7,
-                            bottom: 8,
-                          ),
-                          child: Text(
-                            "Available Balance",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.black900,
-                              fontSize: getFontSize(
-                                16,
-                              ),
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              height: 1.00,
+                        Text(
+                          "Available Balance",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: ColorConstant.black900,
+                            fontSize: getFontSize(
+                              16,
                             ),
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                            height: 1.00,
                           ),
                         ),
-                        Padding(
-                          padding: getPadding(
-                            left: 13,
-                            top: 8,
-                            bottom: 8,
+                        Visibility(
+                          visible: isLocked,
+                          child: IconButton(
+                            icon: FaIcon(
+                                // color: Colors.white,
+                                FontAwesomeIcons.toggleOff),
+                            onPressed: () {
+                              setState(() {
+                                isLocked = false;
+                                available_balance = "00.00 EGP";
+                              });
+                            },
                           ),
-                          child: CommonImageView(
-                            svgPath: ImageConstant.imgLock,
+                        ),
+                        Visibility(
+                          visible: !isLocked,
+                          child: IconButton(
+                            icon: FaIcon(
+                                // color: Colors.white,
+                                FontAwesomeIcons.toggleOn),
+                            onPressed: () {
+                              setState(() {
+                                isLocked = true;
+                                available_balance = "";
+                              });
+                            },
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
+                Container(
+                  margin: getMargin(left: 5),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      available_balance.toUpperCase(),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: ColorConstant.blueA700,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
                     child: Row(
                       children: [
-                        FutureBuilder(
-                          future: getUserStatus(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.data.toString() == "Potential")
-                                return getRequestButton();
-                            }
-                            return Text('');
-                          },
-                        ),
-                        FutureBuilder(
-                          future: getUserStatus(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return getTuitionButton();
-                            }
-                            return Text('');
-                          },
-                        ),
-                        FutureBuilder(
-                          future: getUserStatus(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return getMoneyButton();
-                            }
-                            return Text('');
-                          },
-                        ),
-                        FutureBuilder(
-                          future: getUserStatus(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return getCardButton();
-                            }
-                            return Text('');
-                          },
-                        ),
+                        getTuitionButton(),
+                        getMoneyButton(),
+                        getCardButton()
                       ],
                     ),
                   ),
@@ -261,60 +266,108 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    margin: getMargin(top: 15, bottom: 15),
-                    decoration: BoxDecoration(
-                      color: ColorConstant.whiteA700,
-                      borderRadius: BorderRadius.circular(
-                        getHorizontalSize(
-                          16.00,
+                Visibility(
+                  visible: transactions.length != 0,
+                  child: Expanded(
+                    child: Container(
+                      margin: getMargin(top: 15, bottom: 15),
+                      decoration: BoxDecoration(
+                        color: ColorConstant.whiteA700,
+                        borderRadius: BorderRadius.circular(
+                          getHorizontalSize(
+                            16.00,
+                          ),
                         ),
                       ),
-                    ),
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: transactions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            createRow(
-                                transactions[index].transaction,
-                                transactions[index].date,
-                                transactions[index].amount),
-                            createLine()
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Padding(
-                    padding:
-                        getPadding(top: 10, bottom: 20, left: 20, right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        CommonImageView(
-                          svgPath: ImageConstant.imgHome,
-                        ),
-                        CommonImageView(
-                          svgPath: ImageConstant.imgRefresh,
-                        ),
-                        CommonImageView(
-                          svgPath: ImageConstant.imgSave,
-                        ),
-                      ],
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemCount: transactions.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              createRow(
+                                  transactions[index].transaction,
+                                  transactions[index].date,
+                                  transactions[index].amount),
+                              createLine()
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
+                Visibility(
+                  visible: transactions.length == 0,
+                  child: Expanded(
+                    child: CommonImageView(
+                      imagePath: ImageConstant.not_found,
+                    ),
+                  ),
+                ),
+                Visibility(
+                    visible: transactions.length == 0,
+                    child: Container(
+                        margin: getMargin(top: 10, bottom: 20),
+                        child: Text(
+                          "Nothing here yet",
+                          style: TextStyle(
+                            color: ColorConstant.gray600,
+                            fontSize: getFontSize(
+                              16,
+                            ),
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                            height: 1.00,
+                          ),
+                        ))),
+                getNavigationBar()
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget getNavigationBar() {
+    return Container(
+      child: Padding(
+        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            GestureDetector(
+              onTap: () {},
+              child: CommonImageView(
+                svgPath: ImageConstant.imgHome,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.transferScreen);
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgRefresh,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Alert(
+                        type: AlertType.error,
+                        context: context,
+                        title:
+                            "Your account has not activated yet!".toUpperCase())
+                    .show();
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgSave,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -447,7 +500,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   OnTapAddMoney() {
-    Get.toNamed(AppRoutes.addMoneyScreen);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddMoneyScreen(this.username),
+      ),
+    );
   }
 
   OnTapAddCard(BuildContext context) {
@@ -479,16 +537,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return (list[0] as User).accountStatus;
   }
 
-  List<Widget> getButtons() {
-    List<Widget> list = [];
-    list.add(
-      Container(
-        margin: getMargin(left: 7, right: 7),
+  Widget getTuitionButton() {
+    return Expanded(
+      child: Container(
+        margin: getMargin(right: 5, left: 10),
         child: ElevatedButton(
           onPressed: () {
             OnTapTutionFees();
           },
           style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
               fixedSize: Size(100, 125),
               primary: Colors.white,
               onPrimary: Colors.black,
@@ -514,390 +574,113 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-        ),
-      ),
-    );
-
-    list.add(
-      Container(
-        margin: getMargin(left: 7, right: 7),
-        child: ElevatedButton(
-          onPressed: () {
-            OnTapAddMoney();
-          },
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(100, 125),
-              primary: Colors.black,
-              onPrimary: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-              textStyle: TextStyle(
-                fontFamily: 'Poppins',
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: getMargin(bottom: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CommonImageView(
-                    svgPath: ImageConstant.imgPlus,
-                  ),
-                ),
-              ),
-              Text(
-                'add \nmoney'.toUpperCase(),
-                style: TextStyle(fontSize: 20),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-
-    list.add(
-      Container(
-        margin: getMargin(left: 7, right: 0),
-        child: ElevatedButton(
-          onPressed: () {
-            OnTapAddCard(context);
-          },
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(100, 125),
-              primary: Colour(0, 100, 254),
-              onPrimary: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-              textStyle: TextStyle(
-                fontFamily: 'Poppins',
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: getMargin(bottom: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CommonImageView(
-                    svgPath: ImageConstant.imgComputer21X29,
-                  ),
-                ),
-              ),
-              Text(
-                'add \ncard'.toUpperCase(),
-                style: TextStyle(fontSize: 20),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-
-    return list;
-  }
-
-  List<Widget> getAllButtons() {
-    List<Widget> list = [];
-
-    list.add(
-      Container(
-        margin: getMargin(left: 0, right: 7),
-        child: ElevatedButton(
-          onPressed: () {
-            OnTapRequestPatronCard();
-          },
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(100, 125),
-              primary: Colour(0, 100, 254),
-              onPrimary: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-              textStyle: TextStyle(
-                fontFamily: 'Poppins',
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: getMargin(bottom: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CommonImageView(
-                    imagePath: ImageConstant.imgPatron,
-                    height: 30,
-                    width: 30,
-                  ),
-                ),
-              ),
-              Text(
-                'Request\nPatron\nCard'.toUpperCase(),
-                style: TextStyle(fontSize: 14.3),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-
-    list.add(
-      Container(
-        margin: getMargin(left: 7, right: 7),
-        child: ElevatedButton(
-          onPressed: () {
-            OnTapTutionFees();
-          },
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(100, 125),
-              primary: Colors.white,
-              onPrimary: Colors.black,
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-              textStyle: TextStyle(
-                fontFamily: 'Poppins',
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: getMargin(bottom: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CommonImageView(
-                    svgPath: ImageConstant.imgVector,
-                  ),
-                ),
-              ),
-              Text(
-                'tuition \nfees'.toUpperCase(),
-                style: TextStyle(fontSize: 20),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-
-    list.add(
-      Container(
-        margin: getMargin(left: 7, right: 7),
-        child: ElevatedButton(
-          onPressed: () {
-            OnTapAddMoney();
-          },
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(100, 125),
-              primary: Colors.black,
-              onPrimary: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-              textStyle: TextStyle(
-                fontFamily: 'Poppins',
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: getMargin(bottom: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CommonImageView(
-                    svgPath: ImageConstant.imgPlus,
-                  ),
-                ),
-              ),
-              Text(
-                'add \nmoney'.toUpperCase(),
-                style: TextStyle(fontSize: 20),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-
-    list.add(
-      Container(
-        margin: getMargin(left: 7, right: 0),
-        child: ElevatedButton(
-          onPressed: () {
-            OnTapAddCard(context);
-          },
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(100, 125),
-              primary: Colour(0, 100, 254),
-              onPrimary: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-              textStyle: TextStyle(
-                fontFamily: 'Poppins',
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: getMargin(bottom: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CommonImageView(
-                    svgPath: ImageConstant.imgComputer21X29,
-                  ),
-                ),
-              ),
-              Text(
-                'add \ncard'.toUpperCase(),
-                style: TextStyle(fontSize: 20),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-
-    return list;
-  }
-
-  Widget getRequestButton() {
-    return Container(
-      margin: getMargin(left: 0, right: 7),
-      child: ElevatedButton(
-        onPressed: () {
-          OnTapRequestPatronCard();
-        },
-        style: ElevatedButton.styleFrom(
-            fixedSize: Size(100, 125),
-            primary: Colour(0, 100, 254),
-            onPrimary: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-            textStyle: TextStyle(
-              fontFamily: 'Poppins',
-            )),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: getMargin(bottom: 10),
-              child: Align(
-                alignment: Alignment.center,
-                child: CommonImageView(
-                  imagePath: ImageConstant.imgPatron,
-                  height: 30,
-                  width: 30,
-                ),
-              ),
-            ),
-            Text(
-              'Request\nPatron\nCard'.toUpperCase(),
-              style: TextStyle(fontSize: 14.3),
-            )
-          ],
         ),
       ),
     );
   }
 
   Widget getMoneyButton() {
-    return Container(
-      margin: getMargin(left: 7, right: 7),
-      child: ElevatedButton(
-        onPressed: () {
-          OnTapAddMoney();
-        },
-        style: ElevatedButton.styleFrom(
-            fixedSize: Size(100, 125),
-            primary: Colors.black,
-            onPrimary: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-            textStyle: TextStyle(
-              fontFamily: 'Poppins',
-            )),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: getMargin(bottom: 10),
-              child: Align(
-                alignment: Alignment.center,
-                child: CommonImageView(
-                  svgPath: ImageConstant.imgPlus,
+    return Expanded(
+      child: Container(
+        margin: getMargin(left: 5, right: 5),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapAddMoney();
+          },
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              fixedSize: Size(100, 125),
+              primary: Colors.black,
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    svgPath: ImageConstant.imgPlus,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'add \nmoney'.toUpperCase(),
-              style: TextStyle(fontSize: 20),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget getTuitionButton() {
-    return Container(
-      margin: getMargin(left: 7, right: 7),
-      child: ElevatedButton(
-        onPressed: () {
-          OnTapTutionFees();
-        },
-        style: ElevatedButton.styleFrom(
-            fixedSize: Size(100, 125),
-            primary: Colors.white,
-            onPrimary: Colors.black,
-            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-            textStyle: TextStyle(
-              fontFamily: 'Poppins',
-            )),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: getMargin(bottom: 10),
-              child: Align(
-                alignment: Alignment.center,
-                child: CommonImageView(
-                  svgPath: ImageConstant.imgVector,
-                ),
-              ),
-            ),
-            Text(
-              'tuition \nfees'.toUpperCase(),
-              style: TextStyle(fontSize: 20),
-            )
-          ],
+              Text(
+                'add \nmoney'.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget getCardButton() {
-    return Container(
-      margin: getMargin(left: 7, right: 0),
-      child: ElevatedButton(
-        onPressed: () {
-          OnTapAddCard(context);
-        },
-        style: ElevatedButton.styleFrom(
-            fixedSize: Size(100, 125),
-            primary: Colour(0, 100, 254),
-            onPrimary: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-            textStyle: TextStyle(
-              fontFamily: 'Poppins',
-            )),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: getMargin(bottom: 10),
-              child: Align(
-                alignment: Alignment.center,
-                child: CommonImageView(
-                  svgPath: ImageConstant.imgComputer21X29,
+    return Expanded(
+      child: Container(
+        margin: getMargin(left: 5, right: 10),
+        child: ElevatedButton(
+          onPressed: () {
+            OnTapAddCard(context);
+          },
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              fixedSize: Size(100, 125),
+              primary: Colour(0, 100, 254),
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              textStyle: TextStyle(
+                fontFamily: 'Poppins',
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: getMargin(bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CommonImageView(
+                    svgPath: ImageConstant.imgComputer21X29,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'add \ncard'.toUpperCase(),
-              style: TextStyle(fontSize: 20),
-            )
-          ],
+              Text(
+                'add \ncard'.toUpperCase(),
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  OnTapSupport() {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "call us on: +201553490803".toUpperCase(),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OKAY",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )
+      ],
+    ).show();
   }
 }

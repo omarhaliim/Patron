@@ -1,23 +1,21 @@
 import 'package:colour/colour.dart';
-
 import '../create_enter_pin/create_enter_pin.dart';
 import '../sign_in_enter_pin_screen/sign_in_enter_pin_screen.dart';
 import 'controller/verfiy_your_mobile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
-import 'package:omar_s_application2/widgets/custom_button.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:omar_s_application2/widgets/progress_bar.dart';
+// import 'package:omar_s_application2/phone_auth/phone_auth_cubit.dart';
 
 class VerfiyYourMobileScreen extends GetWidget<VerfiyYourMobileController> {
   late final String FirstName;
   late final String LastName;
-  late final String Phone;
+  late final String UserName;
   late final String Email;
+  late final String Phone;
   late final String Method;
 
-  VerfiyYourMobileScreen(
-      this.FirstName, this.LastName, this.Email, this.Phone, this.Method);
+  VerfiyYourMobileScreen(this.FirstName, this.LastName, this.UserName,
+      this.Email, this.Phone, this.Method);
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -88,7 +86,7 @@ class VerfiyYourMobileScreen extends GetWidget<VerfiyYourMobileController> {
                                 width: getHorizontalSize(293.00),
                                 margin: getMargin(left: 25, top: 37, right: 34),
                                 child: Text(
-                                    "You will send us a message to verfiy your mobile number, you wont be able to use the application if your mobile number is not operating on the same device."
+                                    "We will send you a SMS with a verification code that you will need to enter on the next screen"
                                         .tr,
                                     maxLines: null,
                                     textAlign: TextAlign.left,
@@ -111,6 +109,7 @@ class VerfiyYourMobileScreen extends GetWidget<VerfiyYourMobileController> {
                                     builder: (context) => create_enter_pin(
                                         FirstName,
                                         LastName,
+                                        UserName,
                                         Email,
                                         Phone,
                                         Method),
@@ -118,6 +117,9 @@ class VerfiyYourMobileScreen extends GetWidget<VerfiyYourMobileController> {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
                                   primary: Colour(0, 100, 254),
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 85, vertical: 7.5),
@@ -161,7 +163,7 @@ class VerfiyYourMobileScreen extends GetWidget<VerfiyYourMobileController> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SignInEnterPinScreen(phone: Phone),
+          builder: (context) => SignInEnterPinScreen(Phone),
         ),
       );
     else

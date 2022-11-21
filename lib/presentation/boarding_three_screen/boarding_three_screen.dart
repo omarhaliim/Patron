@@ -58,13 +58,21 @@ class BoardingThreeScreen extends GetWidget<BoardingThreeController> {
                             ],
                           ),
                         ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: CommonImageView(
+                              imagePath: ImageConstant.imgTrackMoney,
+                            ),
+                          ),
+                        ),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
                             width: getHorizontalSize(279.00),
-                            margin: getMargin(left: 14, top: 300),
+                            margin: getMargin(left: 14, bottom: 50),
                             child: Text(
-                              "msg_explore_secure".tr,
+                              "msg_track_your_mone".tr,
                               maxLines: null,
                               textAlign: TextAlign.left,
                               style: AppStyle.txtPoppinsSemiBold32WhiteA701
@@ -72,35 +80,45 @@ class BoardingThreeScreen extends GetWidget<BoardingThreeController> {
                             ),
                           ),
                         ),
-                        ElevatedButton(
-                          child: Text('continue'.toUpperCase()),
-                          onPressed: () {
-                            onTapStartPage();
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              onPrimary: Colour(0, 100, 254),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 85, vertical: 7.5),
-                              textStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 20,
-                              )),
-                        ),
-                        Container(
-                            height: getVerticalSize(10.00),
-                            margin: getMargin(bottom: 20),
-                            child: SmoothIndicator(
-                                offset: 0,
-                                count: 3,
-                                axisDirection: Axis.horizontal,
-                                effect: ScrollingDotsEffect(
-                                    spacing: 11,
-                                    activeDotColor:
-                                        ColorConstant.fromHex("#1212121D"),
-                                    dotColor: ColorConstant.whiteA700,
-                                    dotHeight: getVerticalSize(5.00),
-                                    dotWidth: getHorizontalSize(5.00))))
+                        Column(
+                          children: [
+                            ElevatedButton(
+                              child: Text('get started'.toUpperCase()),
+                              onPressed: () {
+                                onTapStartPage();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  primary: Colors.white,
+                                  onPrimary: Colour(0, 100, 254),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 70, vertical: 7.5),
+                                  textStyle: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 20,
+                                  )),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Container(
+                                height: getVerticalSize(10.00),
+                                margin: getMargin(bottom: 20),
+                                child: SmoothIndicator(
+                                    offset: 0,
+                                    count: 3,
+                                    axisDirection: Axis.horizontal,
+                                    effect: ScrollingDotsEffect(
+                                        spacing: 11,
+                                        activeDotColor:
+                                            ColorConstant.fromHex("#1212121D"),
+                                        dotColor: ColorConstant.whiteA700,
+                                        dotHeight: getVerticalSize(5.00),
+                                        dotWidth: getHorizontalSize(5.00))))
+                          ],
+                        )
                       ]))))),
     );
   }

@@ -8,6 +8,7 @@ class User {
   late String phone;
   late String accountStatus;
   late String loginStatus;
+  late String UserName;
 
   User(
       {required this.nymID,
@@ -15,7 +16,8 @@ class User {
       required this.password,
       required this.phone,
       required this.accountStatus,
-      required this.loginStatus});
+      required this.loginStatus,
+      required this.UserName});
 
   /// serialise object when writing to database
   Map<String, dynamic> toMap() {
@@ -27,6 +29,7 @@ class User {
       DatabaseProvider.COLUMN_PHONE: phone,
       DatabaseProvider.COLUMN_ACCOUNT_STATUS: accountStatus,
       DatabaseProvider.COLUMN_LOGIN_STATUS: loginStatus,
+      DatabaseProvider.COLUMN_USERNAME: UserName,
     };
 
     return map;
@@ -41,5 +44,6 @@ class User {
     phone = map[DatabaseProvider.COLUMN_PHONE];
     accountStatus = map[DatabaseProvider.COLUMN_ACCOUNT_STATUS];
     loginStatus = map[DatabaseProvider.COLUMN_LOGIN_STATUS];
+    UserName = map[DatabaseProvider.COLUMN_USERNAME];
   }
 }

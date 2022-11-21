@@ -1,33 +1,65 @@
 import 'dart:async';
-
 import 'package:colour/colour.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../verfiy_your_mobile_screen/verfiy_your_mobile_screen.dart';
 import 'controller/create_in_enter_pin_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:omar_s_application2/core/app_export.dart';
-import 'package:omar_s_application2/widgets/custom_button.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:omar_s_application2/presentation/create_pin_code_screen/create_pin_code_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:omar_s_application2/widgets/progress_bar.dart';
 
-class create_enter_pin extends GetWidget<create_enter_pinController> {
+class create_enter_pin extends StatefulWidget {
+  final String FirstName;
+  final String LastName;
+  final String UserName;
+  final String Phone;
+  final String Email;
+  final String Method;
+  const create_enter_pin(this.FirstName, this.LastName, this.UserName,
+      this.Email, this.Phone, this.Method);
+  @override
+  State<create_enter_pin> createState() => _create_enter_pinState(
+      this.FirstName,
+      this.LastName,
+      this.UserName,
+      this.Email,
+      this.Phone,
+      this.Method);
+}
+
+class _create_enter_pinState extends State<create_enter_pin> {
   late final String FirstName;
   late final String LastName;
+  late final String UserName;
   late final String Phone;
   late final String Email;
   late final String Method;
 
+  bool SignInFlag = true;
+
   TextEditingController myControllerPin = TextEditingController();
 
-  create_enter_pin(
-      this.FirstName, this.LastName, this.Email, this.Phone, this.Method);
+  _create_enter_pinState(this.FirstName, this.LastName, this.UserName,
+      this.Email, this.Phone, this.Method);
+
   TextEditingController textEditingController = TextEditingController();
   StreamController<ErrorAnimationType>? errorController;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  late String otpCode;
+  bool isLoading = false;
+  String? verificationId;
+
+  void initState() {
+    super.initState();
+    //submitPhoneNumber(Phone);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +69,7 @@ class create_enter_pin extends GetWidget<create_enter_pinController> {
           context,
           MaterialPageRoute(
             builder: (context) => VerfiyYourMobileScreen(
-                FirstName, LastName, Email, Phone, Method),
+                FirstName, LastName, "s", Email, Phone, Method),
           ),
         );
         return true;
@@ -65,7 +97,6 @@ class create_enter_pin extends GetWidget<create_enter_pinController> {
                                     getPadding(left: 35, right: 35, bottom: 40),
                                 child: Text(
                                   "The verification code is sent to +2$Phone",
-                                  overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
                                   style: AppStyle.txtPoppinsMedium16Black900
                                       .copyWith(height: 1.00),
@@ -115,6 +146,9 @@ class create_enter_pin extends GetWidget<create_enter_pinController> {
                                             boxShadows: [],
                                             onChanged: (String value) {},
                                             controller: myControllerPin,
+                                            onCompleted: (submitedCode) {
+                                              otpCode = submitedCode;
+                                            },
                                           ),
                                         ),
                                       ]))),
@@ -128,40 +162,49 @@ class create_enter_pin extends GetWidget<create_enter_pinController> {
                               alignment: Alignment.center,
                               child: ElevatedButton(
                                 child: Text('verify'.toUpperCase()),
-                                onPressed: () {
-                                  if (isValidPin(
-                                      myControllerPin.text.toString())) {
-                                    //isCorrectPin(myControllerPin.text.toString());
-
-                                    myControllerPin.clear();
-
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            Create_Pin_Code_Screen(FirstName,
-                                                LastName, Email, Phone, Method),
-                                      ),
-                                    );
-                                  } else {
-                                    Alert(
-                                            type: AlertType.error,
-                                            context: context,
-                                            title: "Incomplete OTP Code.")
-                                        .show();
+                                onPressed: () async {
+                                  if (SignInFlag == true) {
+                                    if (isValidPin(
+                                        myControllerPin.text.toString())) {
+                                      //isCorrectPin(myControllerPin.text.toString());
+                                      myControllerPin.clear();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Create_Pin_Code_Screen(
+                                                  FirstName,
+                                                  LastName,
+                                                  UserName,
+                                                  Email,
+                                                  Phone,
+                                                  Method),
+                                        ),
+                                      );
+                                    } else {
+                                      myControllerPin.clear();
+                                      Alert(
+                                              type: AlertType.error,
+                                              context: context,
+                                              title: "Incomplete OTP Code.")
+                                          .show();
+                                    }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     primary: Colour(0, 100, 254),
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 102.5, vertical: 7.5),
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Colors.black,
                                         fontFamily: 'Poppins',
                                         fontSize: 20)),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Align(
@@ -173,8 +216,11 @@ class create_enter_pin extends GetWidget<create_enter_pinController> {
                                   onTapImgArrowleft();
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    primary: Colour(255, 255, 255),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     onPrimary: Colour(0, 100, 254),
+                                    primary: Colour(255, 255, 255),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 72.5, vertical: 7.5),
                                     textStyle: TextStyle(
@@ -216,5 +262,39 @@ class create_enter_pin extends GetWidget<create_enter_pinController> {
           <String, String>{"first_name": FirstName, "last_name": LastName}),
     );
     return res;
+  }
+
+  Future<void> submitPhoneNumber(String phoneNumber) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    print(phoneNumber);
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: '+2$phoneNumber',
+      timeout: const Duration(seconds: 200),
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        print("verificationCompleted");
+        await auth.signInWithCredential(credential);
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        print("verificationFailed");
+        print(e.code);
+        if (e.code == 'invalid-phone-number') {
+          print('The provided phone number is not valid.');
+        }
+      },
+      codeSent: (String verificationId, int? resendToken) async {
+        PhoneAuthCredential credential = PhoneAuthProvider.credential(
+            verificationId: verificationId, smsCode: otpCode);
+        UserCredential result = await _auth.signInWithCredential(credential);
+        User? user = result.user;
+        print("codeSent");
+        if (user != null) {
+          print("here");
+          SignInFlag = true;
+        }
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        print('codeAutoRetrievalTimeout');
+      },
+    );
   }
 }

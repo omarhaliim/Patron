@@ -3,8 +3,17 @@ import 'controller/university_pay_later_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
 import 'package:colour/colour.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
-class UniversityPayLaterScreen extends GetWidget<UniversityPayLaterController> {
+class UniversityPayLaterScreen extends StatefulWidget {
+  const UniversityPayLaterScreen({Key? key}) : super(key: key);
+
+  @override
+  State<UniversityPayLaterScreen> createState() =>
+      _UniversityPayLaterScreenState();
+}
+
+class _UniversityPayLaterScreenState extends State<UniversityPayLaterScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -46,8 +55,13 @@ class UniversityPayLaterScreen extends GetWidget<UniversityPayLaterController> {
                               // crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                CommonImageView(
-                                  svgPath: ImageConstant.imgMusic,
+                                GestureDetector(
+                                  onTap: () {
+                                    OnTapSupport();
+                                  },
+                                  child: CommonImageView(
+                                    svgPath: ImageConstant.imgMusic,
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 15,
@@ -115,6 +129,9 @@ class UniversityPayLaterScreen extends GetWidget<UniversityPayLaterController> {
                                   onTapInstallments5();
                                 },
                                 style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     primary: Colors.white,
                                     onPrimary: Colors.black,
                                     padding: EdgeInsets.symmetric(
@@ -158,6 +175,9 @@ class UniversityPayLaterScreen extends GetWidget<UniversityPayLaterController> {
                                   onTapInstallments12();
                                 },
                                 style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
                                     primary: Colour(0, 100, 254),
                                     onPrimary: Colors.white,
                                     padding: EdgeInsets.symmetric(
@@ -169,30 +189,53 @@ class UniversityPayLaterScreen extends GetWidget<UniversityPayLaterController> {
                               ),
                             ]),
                       ),
-                      Container(
-                        child: Padding(
-                          padding: getPadding(
-                              top: 10, bottom: 20, left: 20, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              CommonImageView(
-                                svgPath: ImageConstant.imgHome,
-                              ),
-                              CommonImageView(
-                                svgPath: ImageConstant.imgRefresh,
-                              ),
-                              CommonImageView(
-                                svgPath: ImageConstant.imgSave,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      getNavigationBar()
                     ]),
               ))),
+    );
+  }
+
+  Widget getNavigationBar() {
+    return Container(
+      child: Padding(
+        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.homeScreen);
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgHome,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.transferScreen);
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgRefresh,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Alert(
+                        type: AlertType.error,
+                        context: context,
+                        title:
+                            "Your account has not activated yet!".toUpperCase())
+                    .show();
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgSave,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -215,5 +258,26 @@ class UniversityPayLaterScreen extends GetWidget<UniversityPayLaterController> {
         builder: (context) => SettingsScreen(page_name, ""),
       ),
     );
+  }
+
+  OnTapSupport() {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "call us on: +201553490803".toUpperCase(),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OKAY",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )
+      ],
+    ).show();
   }
 }

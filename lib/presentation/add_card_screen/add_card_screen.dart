@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../add_card_screen/widgets/listgroup12715_item_widget.dart';
@@ -31,9 +32,15 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
   List<Cards> cards = [];
 
+  bool isWriting = true;
+  String old_exp = "";
+
   @override
   void initState() {
     super.initState();
+
+    isWriting = true;
+    old_exp = "";
 
     Cards c1 = Cards("PREPAID", "4588  0080  8819  9300", "08/28", "888",
         "MOHAMED SHAKER", false);
@@ -70,8 +77,13 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CommonImageView(
-                        svgPath: ImageConstant.imgMusic,
+                      GestureDetector(
+                        onTap: () {
+                          OnTapSupport();
+                        },
+                        child: CommonImageView(
+                          svgPath: ImageConstant.imgMusic,
+                        ),
                       ),
                       SizedBox(
                         width: 15,
@@ -149,6 +161,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                     height: 5,
                                   ),
                                   TextField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(16),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     style: TextStyle(height: 1.75),
                                     autocorrect: false,
@@ -186,10 +201,52 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                     height: 5,
                                   ),
                                   TextField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(5),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     style: TextStyle(height: 1.75),
                                     autocorrect: false,
                                     controller: myControllerExp,
+                                    onChanged: (text) {
+                                      if (text.length > old_exp.length)
+                                        isWriting = true;
+                                      if (text.length < old_exp.length)
+                                        isWriting = false;
+
+                                      if (text.length == 2 && isWriting) {
+                                        String updatedText =
+                                            myControllerExp.text + "/";
+
+                                        myControllerExp.value =
+                                            myControllerExp.value.copyWith(
+                                          text: updatedText,
+                                          selection: TextSelection.collapsed(
+                                              offset: updatedText.length),
+                                        );
+
+                                        text = updatedText;
+                                      }
+
+                                      if (text.length == 2 && !isWriting) {
+                                        String updatedText = myControllerExp
+                                            .text
+                                            .substring(0, 1);
+
+                                        myControllerExp.value =
+                                            myControllerExp.value.copyWith(
+                                          text: updatedText,
+                                          selection: TextSelection.collapsed(
+                                              offset: updatedText.length),
+                                        );
+
+                                        text = updatedText;
+                                      }
+
+                                      old_exp = text;
+
+                                      print(isWriting);
+                                    },
                                     decoration: InputDecoration(
                                       hintText: "MM/YY",
                                       hintStyle: TextStyle(fontSize: 12.5),
@@ -223,6 +280,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                     height: 5,
                                   ),
                                   TextField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(3),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     style: TextStyle(height: 1.75),
                                     autocorrect: false,
@@ -273,6 +333,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                             onTapAddCard();
                           },
                           style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
                             primary: Colour(0, 100, 254),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 85, vertical: 7.5),
@@ -306,31 +369,54 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     },
                   ),
                 ),
-                Container(
-                  child: Padding(
-                    padding:
-                        getPadding(top: 10, bottom: 20, left: 20, right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        CommonImageView(
-                          svgPath: ImageConstant.imgHome,
-                        ),
-                        CommonImageView(
-                          svgPath: ImageConstant.imgRefresh,
-                        ),
-                        CommonImageView(
-                          svgPath: ImageConstant.imgSave,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                getNavigationBar()
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget getNavigationBar() {
+    return Container(
+      child: Padding(
+        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.homeScreen);
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgHome,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.transferScreen);
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgRefresh,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Alert(
+                        type: AlertType.error,
+                        context: context,
+                        title:
+                            "Your account has not activated yet!".toUpperCase())
+                    .show();
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgSave,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -471,19 +557,43 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "EXP $exp",
-                      style: AppStyle.txtPoppinsRegular10.copyWith(
-                        fontSize: 12.5,
+                    Visibility(
+                      visible: cards[i].isShown,
+                      child: Text(
+                        "EXP $exp",
+                        style: AppStyle.txtPoppinsRegular10.copyWith(
+                          fontSize: 12.5,
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: !cards[i].isShown,
+                      child: Text(
+                        "EXP *****",
+                        style: AppStyle.txtPoppinsRegular10.copyWith(
+                          fontSize: 12.5,
+                        ),
                       ),
                     ),
                     SizedBox(
                       width: 20,
                     ),
-                    Text(
-                      "CVV $cvv",
-                      style: AppStyle.txtPoppinsRegular10.copyWith(
-                        fontSize: 12.5,
+                    Visibility(
+                      visible: cards[i].isShown,
+                      child: Text(
+                        "CVV $cvv",
+                        style: AppStyle.txtPoppinsRegular10.copyWith(
+                          fontSize: 12.5,
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: !cards[i].isShown,
+                      child: Text(
+                        "CVV ***",
+                        style: AppStyle.txtPoppinsRegular10.copyWith(
+                          fontSize: 12.5,
+                        ),
                       ),
                     ),
                   ],
@@ -518,6 +628,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
   }
 
   onTapAddCard() {
+    isWriting = true;
+    old_exp = "";
+
     String card_number = myControllerCard.text.toString();
     String exp = myControllerExp.text.toString();
     String CVV = myControllerCVV.text.toString();
@@ -526,19 +639,19 @@ class _AddCardScreenState extends State<AddCardScreen> {
       Alert(
               type: AlertType.error,
               context: context,
-              title: "Please enter a valid card number.")
+              title: "Please enter a valid card number.".toUpperCase())
           .show();
     else if (!isValidExp())
       Alert(
               type: AlertType.error,
               context: context,
-              title: "Please enter a valid expiration date.")
+              title: "Please enter a valid expiration date.".toUpperCase())
           .show();
     else if (!isValidCVV())
       Alert(
               type: AlertType.error,
               context: context,
-              title: "Please enter a valid CVV.")
+              title: "Please enter a valid CVV.".toUpperCase())
           .show();
     else {
       Cards c = Cards(
@@ -554,7 +667,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
       Alert(
               type: AlertType.success,
               context: context,
-              title: "Card added successfully.")
+              title: "Card added successfully.".toUpperCase())
           .show();
     }
   }
@@ -599,5 +712,26 @@ class _AddCardScreenState extends State<AddCardScreen> {
       result = result + card_number[i];
     }
     return result;
+  }
+
+  OnTapSupport() {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "call us on: +201553490803".toUpperCase(),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OKAY",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )
+      ],
+    ).show();
   }
 }

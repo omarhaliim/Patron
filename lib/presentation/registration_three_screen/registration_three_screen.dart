@@ -4,7 +4,7 @@ import 'package:omar_s_application2/core/app_export.dart';
 import 'package:omar_s_application2/widgets/custom_button.dart';
 import 'package:colour/colour.dart';
 import 'package:omar_s_application2/db/user.dart';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
 import 'package:omar_s_application2/db/db_provider.dart';
@@ -29,14 +29,36 @@ import 'package:omar_s_application2/widgets/image_picker/editors/image_sticker.d
 import 'package:omar_s_application2/widgets/image_picker/picker/image_picker.dart';
 
 class RegistrationThreeScreen extends StatefulWidget {
-  const RegistrationThreeScreen({Key? key}) : super(key: key);
+  late final String FirstName;
+  late final String LastName;
+  late final String UserName;
+  late final String Email;
+  late final String Phone;
+  late final String Password;
+
+  RegistrationThreeScreen(this.FirstName, this.LastName, this.UserName,
+      this.Email, this.Phone, this.Password);
 
   @override
-  State<RegistrationThreeScreen> createState() =>
-      _RegistrationThreeScreenState();
+  State<RegistrationThreeScreen> createState() => _RegistrationThreeScreenState(
+      this.FirstName,
+      this.LastName,
+      this.UserName,
+      this.Email,
+      this.Phone,
+      this.Password);
 }
 
 class _RegistrationThreeScreenState extends State<RegistrationThreeScreen> {
+  late final String FirstName;
+  late final String LastName;
+  late final String UserName;
+  late final String Email;
+  late final String Phone;
+  late final String Password;
+
+  _RegistrationThreeScreenState(this.FirstName, this.LastName, this.UserName,
+      this.Email, this.Phone, this.Password);
   List<ImageObject> _imgObjs = [];
 
   @override
@@ -211,7 +233,7 @@ class _RegistrationThreeScreenState extends State<RegistrationThreeScreen> {
                           right: 25,
                         ),
                         child: Text(
-                          "msg_we_need_you_to".tr,
+                          "We need you to scan your front and back national ID",
                           maxLines: null,
                           textAlign: TextAlign.center,
                           style: AppStyle.txtPoppinsRegular16Gray700.copyWith(
@@ -266,11 +288,35 @@ class _RegistrationThreeScreenState extends State<RegistrationThreeScreen> {
 
   onTapBtnScan() async {
     // Get.toNamed(AppRoutes.registrationFourScreen);
+    return Alert(
+        type: AlertType.warning,
+        context: context,
+        title: "Kindly prepare the front side of your nationalID",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "OK",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => onTapOK(),
+            color: Color.fromRGBO(0, 179, 134, 1.0),
+          ),
+        ]).show();
 
     // Get max 5 images
+  }
+
+  onTapOK() async {
     final List<ImageObject>? objects = await Navigator.of(context)
         .push(PageRouteBuilder(pageBuilder: (context, animation, __) {
-      return const ImagePicker(maxCount: 2);
+      return ImagePicker(
+          maxCount: 2,
+          Phone: this.Phone,
+          FirstName: this.FirstName,
+          LastName: this.LastName,
+          UserName: this.UserName,
+          Email: this.Email,
+          Password: this.Password);
     }));
 
     if ((objects?.length ?? 0) > 0) {

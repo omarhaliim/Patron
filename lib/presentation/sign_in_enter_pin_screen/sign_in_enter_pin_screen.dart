@@ -15,12 +15,34 @@ import 'package:omar_s_application2/presentation/sign_in_verfiy_your_mobile_scre
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:omar_s_application2/widgets/progress_bar.dart';
 
-class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
-  const SignInEnterPinScreen({super.key, required this.phone});
+class SignInEnterPinScreen extends StatefulWidget {
+  late String phone;
+  SignInEnterPinScreen(this.phone);
 
+  @override
+  State<SignInEnterPinScreen> createState() =>
+      _SignInEnterPinScreenState(phone);
+}
+
+class _SignInEnterPinScreenState extends State<SignInEnterPinScreen> {
+  _SignInEnterPinScreenState(this.phone);
   final String phone;
 
   static TextEditingController myControllerPin = TextEditingController();
+
+  int attempts = 5;
+
+  bool isWrongAttempt = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    attempts = 5;
+
+    isWrongAttempt = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -112,6 +134,20 @@ class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
                                               ),
                                             ),
                                           ]))),
+                              Visibility(
+                                visible: isWrongAttempt,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "attempts left: $attempts".toUpperCase(),
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
                               Align(
                                   alignment: Alignment.center,
                                   child: GestureDetector(
@@ -147,12 +183,24 @@ class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
                                       phone, myControllerPin.text.toString())) {
                                     myControllerPin.clear();
                                     await onTapContinue(context);
-                                  } else
-                                    Alert(
-                                            type: AlertType.error,
-                                            context: context,
-                                            title: "Wrong PIN Code.")
-                                        .show();
+                                  } else {
+                                    setState(() {
+                                      isWrongAttempt = true;
+                                      attempts--;
+                                    });
+
+                                    if (attempts == 0) {
+                                      myControllerPin.clear();
+                                      Get.toNamed(AppRoutes.signInScreen);
+                                    } else {
+                                      myControllerPin.clear();
+                                      Alert(
+                                              type: AlertType.error,
+                                              context: context,
+                                              title: "Wrong PIN Code.")
+                                          .show();
+                                    }
+                                  }
                                 } else
                                   Alert(
                                           type: AlertType.error,
@@ -161,6 +209,9 @@ class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
                                       .show();
                               },
                               style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
                                   primary: Colour(0, 100, 254),
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 85, vertical: 7.5),
@@ -197,7 +248,7 @@ class SignInEnterPinScreen extends GetWidget<SignInEnterPinController> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            VerfiyYourMobileScreen(firstName, "", "", phone, "Reset Login"),
+            VerfiyYourMobileScreen(firstName, "", "", "", phone, "Reset Login"),
       ),
     );
   }

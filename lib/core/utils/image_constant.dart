@@ -1,6 +1,8 @@
 class ImageConstant {
   static String imgGroup2 = 'assets/images/img_group2.svg';
 
+  static String not_found = 'assets/images/not_found.png';
+
   static String imgArrowleftWhiteA700 =
       'assets/images/img_arrowleft_white_A700.svg';
 
@@ -28,7 +30,13 @@ class ImageConstant {
 
   static String imgScaniconbox = 'assets/images/img_scaniconbox.svg';
 
-  static String imgLock = 'assets/images/img_lock.svg';
+  // static String imgLock = 'assets/images/img_lock.svg';
+  //
+  // static String imgLock1 = 'assets/images/img_lock1.svg';
+
+  static String imgLock = 'assets/images/img_lock.png';
+
+  static String imgLock1 = 'assets/images/img_lock1.png';
 
   static String imgTicket42X36 = 'assets/images/img_ticket_42X36.svg';
 
@@ -107,6 +115,14 @@ class ImageConstant {
   static String imgLocation = 'assets/images/img_location.svg';
 
   static String imgPatron = 'assets/images/img_patron.png';
+
+  static String imgPatronCard = 'assets/images/patron_card.png';
+
+  static String imgTrackMoney = 'assets/images/track_money.png';
+
+  static String imgPatronLogo = 'assets/images/patron_logo.png';
+
+  static String imgTuitionFees = 'assets/images/tuition_fees.png';
 
   static String imgComputer14X12 = 'assets/images/img_computer_14X12.svg';
 

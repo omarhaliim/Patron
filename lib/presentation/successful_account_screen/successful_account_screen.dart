@@ -68,6 +68,9 @@ class SuccessfulAccountScreen extends GetWidget<SuccessfulAccountController> {
                   onTapBtnContinue();
                 },
                 style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
                     primary: Colour(0, 100, 254),
                     padding:
                         EdgeInsets.symmetric(horizontal: 85, vertical: 7.5),

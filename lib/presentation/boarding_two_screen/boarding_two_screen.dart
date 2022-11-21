@@ -73,13 +73,26 @@ class BoardingTwoScreen extends GetWidget<BoardingTwoController> {
                                               )),
                                         )
                                       ]))),
+                          Expanded(
+                            child: Container(
+                              margin: getMargin(
+                                  top: 50, bottom: 50, left: 50, right: 50),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: CommonImageView(
+                                  imagePath: ImageConstant.imgPatronCard,
+                                  // height: 282,
+                                  // width: 300,
+                                ),
+                              ),
+                            ),
+                          ),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
-                              width: getHorizontalSize(279.00),
-                              margin: getMargin(left: 14, top: 300),
+                              margin: getMargin(left: 14, bottom: 50),
                               child: Text(
-                                "msg_pay_your_tution".tr,
+                                "msg_explore_secure".tr,
                                 maxLines: null,
                                 textAlign: TextAlign.left,
                                 style: AppStyle.txtPoppinsSemiBold32WhiteA701
@@ -87,23 +100,54 @@ class BoardingTwoScreen extends GetWidget<BoardingTwoController> {
                               ),
                             ),
                           ),
-                          Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                  height: getVerticalSize(10.00),
-                                  margin: getMargin(bottom: 20),
-                                  child: SmoothIndicator(
-                                      offset: 0,
-                                      count: 3,
-                                      axisDirection: Axis.horizontal,
-                                      effect: ScrollingDotsEffect(
-                                          spacing: 12,
-                                          activeDotColor: ColorConstant.fromHex(
-                                              "#1212121D"),
-                                          dotColor: ColorConstant.whiteA701,
-                                          dotHeight: getVerticalSize(5.00),
-                                          dotWidth: getHorizontalSize(5.00)))))
+                          Column(
+                            children: [
+                              ElevatedButton(
+                                child: Text('get started'.toUpperCase()),
+                                onPressed: () {
+                                  onTapStartPage();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    primary: Colors.white,
+                                    onPrimary: Colour(0, 100, 254),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 70, vertical: 7.5),
+                                    textStyle: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 20,
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                              Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                      height: getVerticalSize(10.00),
+                                      margin: getMargin(bottom: 20),
+                                      child: SmoothIndicator(
+                                          offset: 0,
+                                          count: 3,
+                                          axisDirection: Axis.horizontal,
+                                          effect: ScrollingDotsEffect(
+                                              spacing: 12,
+                                              activeDotColor:
+                                                  ColorConstant.fromHex(
+                                                      "#1212121D"),
+                                              dotColor: ColorConstant.whiteA701,
+                                              dotHeight: getVerticalSize(5.00),
+                                              dotWidth:
+                                                  getHorizontalSize(5.00)))))
+                            ],
+                          )
                         ]))))));
+  }
+
+  onTapStartPage() {
+    Get.toNamed(AppRoutes.startScreen);
   }
 
   onTapImgArrowleft() {

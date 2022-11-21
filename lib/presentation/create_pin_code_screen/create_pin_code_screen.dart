@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:colour/colour.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import '../registration_three_screen/registration_three_screen.dart';
 import '../sign_in_enter_pin_screen/sign_in_enter_pin_screen.dart';
-import 'controller/create_pin_code_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -16,15 +15,16 @@ import 'package:omar_s_application2/widgets/progress_bar.dart';
 class Create_Pin_Code_Screen extends StatefulWidget {
   late final String FirstName;
   late final String LastName;
-  late final String Phone;
+  late final String UserName;
   late final String Email;
+  late final String Phone;
   late final String Method;
 
-  Create_Pin_Code_Screen(
-      this.FirstName, this.LastName, this.Email, this.Phone, this.Method);
+  Create_Pin_Code_Screen(this.FirstName, this.LastName, this.UserName,
+      this.Email, this.Phone, this.Method);
   @override
   State<Create_Pin_Code_Screen> createState() =>
-      CreatePinCodeScreen(FirstName, LastName, Email, Phone, Method);
+      CreatePinCodeScreen(FirstName, LastName, UserName, Email, Phone, Method);
 }
 
 class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
@@ -33,18 +33,27 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
 
   late final String FirstName;
   late final String LastName;
-  late final String Phone;
+  late final String UserName;
   late final String Email;
+  late final String Phone;
+  late String Password;
   late final String Method;
 
-  CreatePinCodeScreen(
-      this.FirstName, this.LastName, this.Email, this.Phone, this.Method);
+  CreatePinCodeScreen(this.FirstName, this.LastName, this.UserName, this.Email,
+      this.Phone, this.Method);
 
   bool isLoading = false;
   String text = "";
 
   @override
   void initState() {
+    print(FirstName);
+    print(LastName);
+    print(UserName);
+    print(Email);
+    print(Phone);
+    print(Method);
+
     super.initState();
 
     if (Method == "Reset Login")
@@ -190,20 +199,25 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
                               } else if (!isMatching(
                                   myControllerPin.text.toString(),
                                   myControllerPin2.text.toString())) {
+                                myControllerPin.clear();
+                                myControllerPin2.clear();
                                 Alert(
                                         type: AlertType.error,
                                         context: context,
                                         title: "PIN Codes don't match.")
                                     .show();
                               } else {
-                                if (Method == "Create") {
-                                  var response = await createUserAPI();
-                                  int statusCode = response.statusCode;
+                                if (!isWeekPassword(
+                                    myControllerPin.text.toString())) {
+                                  if (Method == "Create") {
+                                    Password = myControllerPin.text.toString();
 
-                                  if (statusCode == 200) {
-                                    String nym_id =
-                                        jsonDecode(response.body)['id'];
-                                    createUserDB(nym_id);
+                                    myControllerPin.clear();
+                                    myControllerPin2.clear();
+
+                                    onTapBtnContinue();
+                                  } else {
+                                    await updateUserDB();
 
                                     SharedPreferences pref =
                                         await SharedPreferences.getInstance();
@@ -212,30 +226,24 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
                                     myControllerPin.clear();
                                     myControllerPin2.clear();
 
-                                    onTapBtnContinue();
-                                  } else {
-                                    Alert(
-                                            type: AlertType.error,
-                                            context: context,
-                                            title:
-                                                "Error has occured. Please try again!")
-                                        .show();
+                                    Get.toNamed(AppRoutes.homeScreen);
                                   }
                                 } else {
-                                  await updateUserDB();
-
-                                  SharedPreferences pref =
-                                      await SharedPreferences.getInstance();
-                                  pref.setString("number", Phone);
-
                                   myControllerPin.clear();
                                   myControllerPin2.clear();
-
-                                  onTapBtnContinue();
+                                  Alert(
+                                          type: AlertType.error,
+                                          context: context,
+                                          title:
+                                              "Your password is Week, Please select more unique password")
+                                      .show();
                                 }
                               }
                             },
                             style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
                               primary: Colour(0, 100, 254),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 85, vertical: 7.5),
@@ -264,13 +272,19 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SignInEnterPinScreen(phone: Phone),
+          builder: (context) => SignInEnterPinScreen(Phone),
         ),
       );
   }
 
   onTapBtnContinue() {
-    Get.toNamed(AppRoutes.successfulAccountScreen);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RegistrationThreeScreen(
+            FirstName, LastName, UserName, Email, Phone, Password),
+      ),
+    );
   }
 
   Future<dynamic> createUserAPI() async {
@@ -282,7 +296,8 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
       body: jsonEncode(<String, String>{
         'first_name': FirstName,
         'last_name': LastName,
-        'email': Email
+        'email': Email,
+        'mobile': "+2" + Phone
       }),
     );
     return response;
@@ -295,7 +310,8 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
         password: myControllerPin.text.toString(),
         phone: Phone,
         accountStatus: 'Potential',
-        loginStatus: 'SignedOut');
+        loginStatus: 'SignedOut',
+        UserName: UserName);
 
     return await DatabaseProvider.db.insert(user);
   }
@@ -322,5 +338,26 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
       return true;
     else
       return false;
+  }
+
+  bool isWeekPassword(String password) {
+    print(password);
+    List WeekPassword = [
+      "111111",
+      "0000000",
+      "222222",
+      "3333333",
+      "444444",
+      "555555",
+      "6666666",
+      "123456",
+      "654321"
+    ];
+    for (int i = 0; i < WeekPassword.length; i++) {
+      if (password == WeekPassword[i]) {
+        return true;
+      }
+    }
+    return false;
   }
 }

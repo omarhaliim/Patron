@@ -11,8 +11,29 @@ import 'package:omar_s_application2/db/db_provider.dart';
 import 'package:omar_s_application2/db/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
+class SignInEnterPinOneScreen extends StatefulWidget {
+  const SignInEnterPinOneScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SignInEnterPinOneScreen> createState() =>
+      _SignInEnterPinOneScreenState();
+}
+
+class _SignInEnterPinOneScreenState extends State<SignInEnterPinOneScreen> {
   static TextEditingController myControllerPin = TextEditingController();
+
+  int attempts = 5;
+
+  bool isWrongAttempt = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    attempts = 5;
+
+    isWrongAttempt = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +109,19 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
                                   ),
                                 ),
                               ]))),
+                  Visibility(
+                    visible: isWrongAttempt,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "attempts left: $attempts".toUpperCase(),
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
                   Align(
                       alignment: Alignment.center,
                       child: GestureDetector(
@@ -129,12 +163,26 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
                                 myControllerPin.text.toString())) {
                               myControllerPin.clear();
                               onTapBtnContinue();
-                            } else
-                              Alert(
-                                      type: AlertType.error,
-                                      context: context,
-                                      title: "Wrong PIN Code.")
-                                  .show();
+                            } else {
+                              setState(() {
+                                isWrongAttempt = true;
+                                attempts--;
+                              });
+                              if (attempts == 0) {
+                                SharedPreferences pref =
+                                    await SharedPreferences.getInstance();
+                                pref.remove("number");
+
+                                Get.toNamed(AppRoutes.signInScreen);
+                              } else {
+                                myControllerPin.clear();
+                                Alert(
+                                        type: AlertType.error,
+                                        context: context,
+                                        title: "Wrong PIN Code.")
+                                    .show();
+                              }
+                            }
                           } else
                             Alert(
                                     type: AlertType.error,
@@ -167,7 +215,7 @@ class SignInEnterPinOneScreen extends GetWidget<SignInEnterPinOneController> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            VerfiyYourMobileScreen(firstName, "", "", phone, "Reset"),
+            VerfiyYourMobileScreen(firstName, "", "", "", phone, "Reset"),
       ),
     );
   }

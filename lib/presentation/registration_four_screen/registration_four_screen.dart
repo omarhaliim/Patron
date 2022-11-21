@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../db/user.dart';
 // import '../registration_five_screen/registration_five_screen.dart';
+import '../../models/image_object.dart';
+import '../../widgets/image_picker/picker/image_picker.dart';
 import '../registration_five_screen/registration_five_screen.dart';
+import '../registration_three_screen/registration_three_screen.dart';
 import 'controller/registration_four_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
@@ -15,7 +18,17 @@ class RegistrationFourScreen extends GetWidget<RegistrationFourController> {
   late final String image1;
   late final String image2;
 
-  RegistrationFourScreen(this.image1, this.image2);
+  late final String FirstName;
+  late final String LastName;
+  late final String UserName;
+  late final String Email;
+  late final String Phone;
+  late final String Password;
+
+  RegistrationFourScreen(this.FirstName, this.LastName, this.UserName,
+      this.Email, this.Phone, this.Password, this.image1, this.image2);
+
+  // final RegistrationThreeScreen ani= new RegistrationThreeScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -71,23 +84,23 @@ class RegistrationFourScreen extends GetWidget<RegistrationFourController> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: getPadding(bottom: 20),
-                            child: Text(
-                              "scan your document".toUpperCase(),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: getFontSize(
-                                  20,
-                                ),
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                height: 1.00,
-                              ),
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: getPadding(bottom: 1),
+                          //   // child: Text(
+                          //   //   "scan your document".toUpperCase(),
+                          //   //   overflow: TextOverflow.ellipsis,
+                          //   //   textAlign: TextAlign.left,
+                          //   //   style: TextStyle(
+                          //   //     color: Colors.white,
+                          //   //     fontSize: getFontSize(
+                          //   //       20,
+                          //   //     ),
+                          //   //     fontFamily: 'Poppins',
+                          //   //     fontWeight: FontWeight.w500,
+                          //   //     height: 1.00,
+                          //   //   ),
+                          //   // ),
+                          // ),
                           Container(
                               //width: size.width,
                               decoration: AppDecoration.fillWhiteA700.copyWith(
@@ -186,29 +199,71 @@ class RegistrationFourScreen extends GetWidget<RegistrationFourController> {
                                                           this.image2)))
                                             ]))
                                   ])),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              margin: getMargin(bottom: 20, top: 30),
-                              child: ElevatedButton(
-                                child: Text('continue'.toUpperCase()),
-                                onPressed: () {
-                                  Get.toNamed(AppRoutes.registrationFiveScreen);
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         RegistrationFiveScreen(),
-                                  //   ),
-                                  // );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    onPrimary: Colour(0, 100, 254),
-                                    primary: Colour(255, 255, 255),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 107.5, vertical: 7.5),
-                                    textStyle: TextStyle(
-                                        fontFamily: 'Poppins', fontSize: 20)),
+
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                //margin: getMargin(bottom: 20, top: 30),
+
+                                children: [
+                                  ElevatedButton(
+                                    child: Text('continue'.toUpperCase()),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegistrationFiveScreen(
+                                                  FirstName,
+                                                  LastName,
+                                                  UserName,
+                                                  Email,
+                                                  Phone,
+                                                  Password),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        onPrimary: Colour(0, 100, 254),
+                                        primary: Colour(255, 255, 255),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 107.5, vertical: 7.5),
+                                        textStyle: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 20)),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  ElevatedButton(
+                                    child: Text('Retake'.toUpperCase()),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegistrationThreeScreen(
+                                                  this.FirstName,
+                                                  this.LastName,
+                                                  this.UserName,
+                                                  this.Email,
+                                                  this.Phone,
+                                                  this.Password),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        onPrimary: Colour(0, 100, 254),
+                                        primary: Colour(255, 255, 255),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 107.5, vertical: 7.5),
+                                        textStyle: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 20)),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -235,5 +290,21 @@ class RegistrationFourScreen extends GetWidget<RegistrationFourController> {
 
   onTapBtnContinue() {
     Get.toNamed(AppRoutes.createPinCodeScreen);
+  }
+
+  onTapOK() async {
+    Get.toNamed(AppRoutes.registrationThreeScreen);
+    //   final List<ImageObject>? objects = await Navigator.of(context)
+    //       .push(PageRouteBuilder(pageBuilder: (context, animation, __) {
+    //     return const ImagePicker(maxCount: 2);
+    //   }));
+    //
+    //   if ((objects?.length ?? 0) > 0) {
+    //     setState(() {
+    //       _imgObjs = objects!;
+    //     });
+    //   }
+
+    //ani.onTapOK();
   }
 }

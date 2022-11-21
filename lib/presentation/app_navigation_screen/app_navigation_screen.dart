@@ -1756,7 +1756,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
   }
 
   onTapAddMoney() {
-    Get.toNamed(AppRoutes.addMoneyScreen);
+    // Get.toNamed(AppRoutes.addMoneyScreen);
   }
 
   // onTapAddCard() {

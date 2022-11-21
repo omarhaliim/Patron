@@ -113,7 +113,7 @@ class AppRoutes {
 
   static String registration3TwoScreen = '/registration_3_two_screen';
 
-  static String registrationFiveScreen = '/registration_five_screen';
+  //static String registrationFiveScreen = '/registration_five_screen';
 
   static String createPinCodeScreen = '/create_pin_code_screen';
 
@@ -141,7 +141,7 @@ class AppRoutes {
 
   static String tutionFeesScreen = '/tution_fees_screen';
 
-  static String addMoneyScreen = '/add_money_screen';
+  //static String addMoneyScreen = '/add_money_screen';
 
   //static String addCardScreen = '/add_card_screen';
 
@@ -253,13 +253,13 @@ class AppRoutes {
     //     VerfiyYourMobileBinding(),
     //   ],
     // ),
-    GetPage(
-      name: registrationThreeScreen,
-      page: () => RegistrationThreeScreen(),
-      bindings: [
-        RegistrationThreeBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: registrationThreeScreen,
+    //   page: () => RegistrationThreeScreen(),
+    //   bindings: [
+    //     RegistrationThreeBinding(),
+    //   ],
+    // ),
     GetPage(
       name: registration3OneScreen,
       page: () => Registration3OneScreen(),
@@ -274,13 +274,13 @@ class AppRoutes {
         Registration3TwoBinding(),
       ],
     ),
-    GetPage(
-      name: registrationFiveScreen,
-      page: () => RegistrationFiveScreen(),
-      bindings: [
-        RegistrationFiveBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: registrationFiveScreen,
+    //   page: () => RegistrationFiveScreen(),
+    //   bindings: [
+    //     RegistrationFiveBinding(),
+    //   ],
+    // ),
     // GetPage(
     //   name: createPinCodeScreen,
     //   page: () => CreatePinCodeScreen(),
@@ -373,13 +373,13 @@ class AppRoutes {
         TutionFeesBinding(),
       ],
     ),
-    GetPage(
-      name: addMoneyScreen,
-      page: () => AddMoneyScreen(),
-      bindings: [
-        AddMoneyBinding(),
-      ],
-    ),
+    // GetPage(
+    //   name: addMoneyScreen,
+    //   page: () => AddMoneyScreen(),
+    //   bindings: [
+    //     AddMoneyBinding(),
+    //   ],
+    // ),
     // GetPage(
     //   name: addCardScreen,
     //   page: () => AddCardScreen(),

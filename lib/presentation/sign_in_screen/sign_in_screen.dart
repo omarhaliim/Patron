@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import 'controller/sign_in_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
@@ -7,8 +9,27 @@ import 'package:omar_s_application2/db/db_provider.dart';
 import 'package:omar_s_application2/presentation/sign_in_enter_pin_screen/sign_in_enter_pin_screen.dart';
 import 'package:omar_s_application2/widgets/progress_bar.dart';
 
-class SignInScreen extends GetWidget<SignInController> {
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
   final myControllerPhone = TextEditingController();
+
+  late GlobalKey<FormFieldState> PhoneKey;
+  late List<GlobalKey<FormFieldState>> fieldKeys;
+
+  @override
+  void initState() {
+    super.initState();
+
+    PhoneKey = GlobalKey<FormFieldState>();
+
+    fieldKeys = [PhoneKey];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,23 +66,36 @@ class SignInScreen extends GetWidget<SignInController> {
                                 style: AppStyle.txtPoppinsMedium16Gray9007f
                                     .copyWith(height: 1.00))),
                         Container(
-                          width: double.infinity,
-                          margin: getMargin(left: 34, top: 3, right: 34),
-                          decoration: AppDecoration.outlineGray90059.copyWith(
-                              borderRadius: BorderRadiusStyle.circleBorder2),
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            style: TextStyle(height: 1.75),
-                            autocorrect: false,
-                            controller: myControllerPhone,
-                            decoration: InputDecoration(
-                              hintText: 'ex: 01xxxxxxxxx',
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
+                            width: double.infinity,
+                            margin: getMargin(left: 34, top: 3, right: 34),
+                            decoration: AppDecoration.outlineGray90059.copyWith(
+                                borderRadius: BorderRadiusStyle.circleBorder2),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: myControllerPhone,
+                              autocorrect: false,
+                              key: PhoneKey,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(11),
+                              ],
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Phone number is required';
+                                } else if (!isValidPhoneNumber(value)) {
+                                  return 'Enter Valid Mobile Number';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'ex: 01xxxxxxxxx',
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                border: OutlineInputBorder(),
+                              ),
+                            )),
                       ],
                     ),
                     Container(
@@ -73,6 +107,9 @@ class SignInScreen extends GetWidget<SignInController> {
                               context, myControllerPhone.text.toString());
                         },
                         style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                           primary: Colour(0, 100, 254),
                           padding: EdgeInsets.symmetric(
                               horizontal: 85, vertical: 7.5),
@@ -87,6 +124,10 @@ class SignInScreen extends GetWidget<SignInController> {
     );
   }
 
+  bool validate() {
+    return fieldKeys.every((element) => element.currentState!.validate());
+  }
+
   onTapImgArrowleft() {
     Get.toNamed(AppRoutes.startScreen);
   }
@@ -98,12 +139,12 @@ class SignInScreen extends GetWidget<SignInController> {
     //     builder: (context) => SignInEnterPinScreen(phone: phone),
     //   ),
     // );
-    if (isValidPhoneNumber(myControllerPhone.text.toString())) {
+    if (validate()) {
       if (await isExistingUser(myControllerPhone.text.toString()))
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SignInEnterPinScreen(phone: phone),
+            builder: (context) => SignInEnterPinScreen(phone),
           ),
         );
       else
@@ -133,12 +174,7 @@ class SignInScreen extends GetWidget<SignInController> {
             )
           ],
         ).show();
-    } else
-      Alert(
-              type: AlertType.error,
-              context: context,
-              title: "Please make sure you've entered a valid mobile number.")
-          .show();
+    }
   }
 
   onTapBtnSignUp() {

@@ -15,6 +15,7 @@ import 'package:omar_s_application2/configs/image_picker_configs.dart';
 import 'package:omar_s_application2/models/image_object.dart';
 import 'package:omar_s_application2/utils/image_utils.dart';
 import 'package:omar_s_application2/utils/log_utils.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../common/portrait_mode_mixin.dart';
 import '../viewer/image_viewer.dart';
 import 'media_album.dart';
@@ -45,13 +46,26 @@ const int kBottomControlPanelHeight = 265;
 /// rotation, cropping, and adding sticker as well as filters.
 class ImagePicker extends StatefulWidget {
   /// Default constructor for the photo and media image picker.
-  const ImagePicker(
+  ImagePicker(
       {final Key? key,
       this.maxCount = 10,
       this.isFullscreenImage = false,
       this.isCaptureFirst = true,
-      this.configs})
+      this.configs,
+      required this.Phone,
+      required this.FirstName,
+      required this.LastName,
+      required this.UserName,
+      required this.Email,
+      required this.Password})
       : super(key: key);
+
+  late final String FirstName;
+  late final String LastName;
+  late final String UserName;
+  late final String Email;
+  late final String Phone;
+  late final String Password;
 
   /// Max selecting count
   final int maxCount;
@@ -68,7 +82,8 @@ class ImagePicker extends StatefulWidget {
   final bool isCaptureFirst;
 
   @override
-  _ImagePickerState createState() => _ImagePickerState();
+  _ImagePickerState createState() => _ImagePickerState(this.FirstName,
+      this.LastName, this.UserName, this.Email, this.Phone, this.Password);
 }
 
 class _ImagePickerState extends State<ImagePicker>
@@ -77,6 +92,16 @@ class _ImagePickerState extends State<ImagePicker>
         WidgetsBindingObserver,
         TickerProviderStateMixin,
         PortraitStatefulModeMixin<ImagePicker> {
+  late final String FirstName;
+  late final String LastName;
+  late final String UserName;
+  late final String Email;
+  late final String Phone;
+  late final String Password;
+
+  _ImagePickerState(this.FirstName, this.LastName, this.UserName, this.Email,
+      this.Phone, this.Password);
+
   /// List of camera detected in device
   List<CameraDescription> _cameras = [];
 
@@ -570,7 +595,14 @@ class _ImagePickerState extends State<ImagePicker>
       context,
       MaterialPageRoute(
         builder: (context) => RegistrationFourScreen(
-            _selectedImages[0].modifiedPath, _selectedImages[1].modifiedPath),
+            this.FirstName,
+            this.LastName,
+            this.UserName,
+            this.Email,
+            this.Phone,
+            this.Password,
+            _selectedImages[0].modifiedPath,
+            _selectedImages[1].modifiedPath),
       ),
     );
   }
@@ -593,7 +625,7 @@ class _ImagePickerState extends State<ImagePicker>
         return Padding(
             padding: const EdgeInsets.all(8),
             child: OutlinedButton(
-              onPressed: (_selectedImages.isNotEmpty)
+              onPressed: (_selectedImages.length == widget.maxCount)
                   ? () async {
                       await _doneButtonPressed();
                     }
@@ -601,18 +633,14 @@ class _ImagePickerState extends State<ImagePicker>
               style: ButtonStyle(
                 elevation: MaterialStateProperty.all(5),
                 backgroundColor: MaterialStateProperty.all(
-                    _selectedImages.isNotEmpty ? buttonColor : Colors.grey),
+                    _selectedImages.length == widget.maxCount
+                        ? buttonColor
+                        : Colors.grey),
                 shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
               ),
               child: Row(children: [
-                Text(_configs.textSelectButtonTitle,
-                    style: TextStyle(
-                        color: _selectedImages.isNotEmpty
-                            ? ((buttonColor == Colors.white)
-                                ? Colors.black
-                                : Colors.white)
-                            : Colors.black)),
+                Text("Proceed", style: TextStyle(color: Colors.white)),
                 if (_isOutputCreating)
                   const Padding(
                     padding: EdgeInsets.all(4),
@@ -625,7 +653,7 @@ class _ImagePickerState extends State<ImagePicker>
           icon: _isOutputCreating
               ? const CupertinoActivityIndicator()
               : Icon(_configs.doneButtonIcon),
-          onPressed: (_selectedImages.isNotEmpty)
+          onPressed: (_selectedImages.length == 2)
               ? () async {
                   await _doneButtonPressed();
                 }
@@ -659,8 +687,8 @@ class _ImagePickerState extends State<ImagePicker>
             left: 5,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              _exposureModeControlRowWidget(),
-              _buildExposureButton(context),
+              //_exposureModeControlRowWidget(),
+              // _buildExposureButton(context),
             ])),
         Positioned(
             bottom: bottomHeight.toDouble(),
@@ -698,18 +726,18 @@ class _ImagePickerState extends State<ImagePicker>
   }
 
   /// Build exposure adjusting button.
-  Widget _buildExposureButton(BuildContext context) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        primary: Colors.black12,
-        minimumSize: const Size(88, 36),
-        padding: const EdgeInsets.all(4),
-        shape: const CircleBorder(),
-      ),
-      onPressed: _controller != null ? _onExposureModeButtonPressed : null,
-      child: const Icon(Icons.exposure, color: Colors.white, size: 40),
-    );
-  }
+  // Widget _buildExposureButton(BuildContext context) {
+  //   return TextButton(
+  //     style: TextButton.styleFrom(
+  //       primary: Colors.black12,
+  //       minimumSize: const Size(88, 36),
+  //       padding: const EdgeInsets.all(4),
+  //       shape: const CircleBorder(),
+  //     ),
+  //     onPressed: _controller != null ? _onExposureModeButtonPressed : null,
+  //     child: const Icon(Icons.exposure, color: Colors.white, size: 40),
+  //   );
+  // }
 
   /// Exposure change mode button event.
   void _onExposureModeButtonPressed() {
@@ -1381,6 +1409,27 @@ class _ImagePickerState extends State<ImagePicker>
                                       originalPath: capturedFile.path,
                                       modifiedPath: capturedFile.path));
                                 });
+                                if (_selectedImages.length == 1) {
+                                  Alert(
+                                      type: AlertType.warning,
+                                      context: context,
+                                      title:
+                                          "Kindly prepare the back side of your nationalID",
+                                      buttons: [
+                                        DialogButton(
+                                          child: Text(
+                                            "OK",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          color:
+                                              Color.fromRGBO(0, 179, 134, 1.0),
+                                        ),
+                                      ]).show();
+                                }
                                 print("ashrafff");
                                 print(capturedFile.path);
                               } on CameraException catch (e) {
@@ -1393,30 +1442,32 @@ class _ImagePickerState extends State<ImagePicker>
                         size: (64 + (_isCapturing ? (-10) : 0)).toDouble(),
                         color: !isMaxCount ? Colors.white : Colors.grey),
                   ),
-                  GestureDetector(
-                    onTap: canSwitchCamera && _configs.showLensDirection
-                        ? () async {
-                            final lensDirection =
-                                _controller!.description.lensDirection;
-                            final CameraDescription? newDescription =
-                                _getCamera(
-                                    _cameras,
-                                    lensDirection == CameraLensDirection.front
-                                        ? CameraLensDirection.back
-                                        : CameraLensDirection.front);
-                            if (newDescription != null) {
-                              LogUtils.log("Start new camera: "
-                                  "${newDescription.toString()}");
-                              await _onNewCameraSelected(newDescription);
-                            }
-                          }
-                        : null,
-                    child: Icon(Icons.switch_camera,
-                        size: 32,
-                        color: _configs.showLensDirection
-                            ? (canSwitchCamera ? Colors.white : Colors.grey)
-                            : Colors.transparent),
-                  )
+                  SizedBox(height: 50, width: 50)
+
+                  // GestureDetector(
+                  //   onTap: canSwitchCamera && _configs.showLensDirection
+                  //       ? () async {
+                  //           final lensDirection =
+                  //               _controller!.description.lensDirection;
+                  //           final CameraDescription? newDescription =
+                  //               _getCamera(
+                  //                   _cameras,
+                  //                   lensDirection == CameraLensDirection.front
+                  //                       ? CameraLensDirection.back
+                  //                       : CameraLensDirection.front);
+                  //           if (newDescription != null) {
+                  //             LogUtils.log("Start new camera: "
+                  //                 "${newDescription.toString()}");
+                  //             await _onNewCameraSelected(newDescription);
+                  //           }
+                  //         }
+                  //       : null,
+                  //   child: Icon(Icons.switch_camera,
+                  //       size: 32,
+                  //       color: _configs.showLensDirection
+                  //           ? (canSwitchCamera ? Colors.white : Colors.grey)
+                  //           : Colors.transparent),
+                  // )
                 ]),
           )
         : const SizedBox();
@@ -1465,86 +1516,86 @@ class _ImagePickerState extends State<ImagePicker>
   }
 
   /// Build exposure mode control widget.
-  Widget _exposureModeControlRowWidget() {
-    if (_controller?.value == null) return const SizedBox();
-
-    final ButtonStyle styleAuto = TextButton.styleFrom(
-      primary: _controller?.value.exposureMode == ExposureMode.auto
-          ? Colors.orange
-          : Colors.white,
-    );
-    final ButtonStyle styleLocked = TextButton.styleFrom(
-      primary: _controller?.value.exposureMode == ExposureMode.locked
-          ? Colors.orange
-          : Colors.white,
-    );
-
-    const textStyle = TextStyle(color: Colors.white);
-    return SizeTransition(
-      sizeFactor: _exposureModeControlRowAnimation,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        child: Container(
-          color: Colors.black.withOpacity(0.7),
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(_configs.textExposure, style: textStyle),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    style: styleAuto,
-                    onPressed: _controller != null
-                        ? () =>
-                            _onSetExposureModeButtonPressed(ExposureMode.auto)
-                        : null,
-                    onLongPress: () {
-                      if (_controller != null) {
-                        _controller!.setExposurePoint(null);
-                      }
-                    },
-                    child: Text(_configs.textExposureAuto),
-                  ),
-                  TextButton(
-                    style: styleLocked,
-                    onPressed: _controller != null
-                        ? () =>
-                            _onSetExposureModeButtonPressed(ExposureMode.locked)
-                        : null,
-                    child: Text(_configs.textExposureLocked),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(_minAvailableExposureOffset.toString(),
-                      style: textStyle),
-                  Slider(
-                    value: _currentExposureOffset,
-                    min: _minAvailableExposureOffset,
-                    max: _maxAvailableExposureOffset,
-                    divisions: 16,
-                    label: _currentExposureOffset.toString(),
-                    activeColor: Colors.white,
-                    inactiveColor: Colors.grey,
-                    onChanged: _minAvailableExposureOffset ==
-                            _maxAvailableExposureOffset
-                        ? null
-                        : _setExposureOffset,
-                  ),
-                  Text(_maxAvailableExposureOffset.toString(),
-                      style: textStyle),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _exposureModeControlRowWidget() {
+  //   if (_controller?.value == null) return const SizedBox();
+  //
+  //   final ButtonStyle styleAuto = TextButton.styleFrom(
+  //     primary: _controller?.value.exposureMode == ExposureMode.auto
+  //         ? Colors.orange
+  //         : Colors.white,
+  //   );
+  //   final ButtonStyle styleLocked = TextButton.styleFrom(
+  //     primary: _controller?.value.exposureMode == ExposureMode.locked
+  //         ? Colors.orange
+  //         : Colors.white,
+  //   );
+  //
+  //   const textStyle = TextStyle(color: Colors.white);
+  //   return SizeTransition(
+  //     sizeFactor: _exposureModeControlRowAnimation,
+  //     child: ClipRRect(
+  //       borderRadius: const BorderRadius.all(Radius.circular(10)),
+  //       child: Container(
+  //         color: Colors.black.withOpacity(0.7),
+  //         padding: const EdgeInsets.all(12),
+  //         child: Column(
+  //           children: [
+  //             // Row(
+  //             //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //             //   children: [
+  //             //     Text(_configs.textExposure, style: textStyle),
+  //             //     const SizedBox(width: 8),
+  //             //     TextButton(
+  //             //       style: styleAuto,
+  //             //       onPressed: _controller != null
+  //             //           ? () =>
+  //             //               _onSetExposureModeButtonPressed(ExposureMode.auto)
+  //             //           : null,
+  //             //       onLongPress: () {
+  //             //         if (_controller != null) {
+  //             //           _controller!.setExposurePoint(null);
+  //             //         }
+  //             //       },
+  //             //       child: Text(_configs.textExposureAuto),
+  //             //     ),
+  //             //     TextButton(
+  //             //       style: styleLocked,
+  //             //       onPressed: _controller != null
+  //             //           ? () =>
+  //             //               _onSetExposureModeButtonPressed(ExposureMode.locked)
+  //             //           : null,
+  //             //       child: Text(_configs.textExposureLocked),
+  //             //     ),
+  //             //   ],
+  //             // ),
+  //             // Row(
+  //             //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //             //   children: [
+  //             //     Text(_minAvailableExposureOffset.toString(),
+  //             //         style: textStyle),
+  //             //     Slider(
+  //             //       value: _currentExposureOffset,
+  //             //       min: _minAvailableExposureOffset,
+  //             //       max: _maxAvailableExposureOffset,
+  //             //       divisions: 16,
+  //             //       label: _currentExposureOffset.toString(),
+  //             //       activeColor: Colors.white,
+  //             //       inactiveColor: Colors.grey,
+  //             //       onChanged: _minAvailableExposureOffset ==
+  //             //               _maxAvailableExposureOffset
+  //             //           ? null
+  //             //           : _setExposureOffset,
+  //             //     ),
+  //             //     Text(_maxAvailableExposureOffset.toString(),
+  //             //         style: textStyle),
+  //             //   ],
+  //             // ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   /// Set exposure mode button.
   void _onSetExposureModeButtonPressed(ExposureMode mode) {

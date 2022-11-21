@@ -3,8 +3,16 @@ import 'package:omar_s_application2/presentation/settings_screen/settings_screen
 import 'controller/tution_fees_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
-class TutionFeesScreen extends GetWidget<TutionFeesController> {
+class TutionFeesScreen extends StatefulWidget {
+  const TutionFeesScreen({Key? key}) : super(key: key);
+
+  @override
+  State<TutionFeesScreen> createState() => _TutionFeesScreenState();
+}
+
+class _TutionFeesScreenState extends State<TutionFeesScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -35,8 +43,13 @@ class TutionFeesScreen extends GetWidget<TutionFeesController> {
                                 // crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  CommonImageView(
-                                    svgPath: ImageConstant.imgMusic,
+                                  GestureDetector(
+                                    onTap: () {
+                                      OnTapSupport();
+                                    },
+                                    child: CommonImageView(
+                                      svgPath: ImageConstant.imgMusic,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 15,
@@ -93,6 +106,12 @@ class TutionFeesScreen extends GetWidget<TutionFeesController> {
                                                   onTapTopupthrough();
                                                 },
                                                 style: ElevatedButton.styleFrom(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                    ),
                                                     primary: Colors.white,
                                                     onPrimary: Colors.black,
                                                     padding:
@@ -134,6 +153,12 @@ class TutionFeesScreen extends GetWidget<TutionFeesController> {
                                                   onTapTopupthrough1();
                                                 },
                                                 style: ElevatedButton.styleFrom(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0),
+                                                    ),
                                                     primary: Colors.black,
                                                     onPrimary: Colors.white,
                                                     padding:
@@ -168,30 +193,53 @@ class TutionFeesScreen extends GetWidget<TutionFeesController> {
                                           )
                                         ])))
                           ]),
-                      Container(
-                        child: Padding(
-                          padding: getPadding(
-                              top: 10, bottom: 20, left: 20, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              CommonImageView(
-                                svgPath: ImageConstant.imgHome,
-                              ),
-                              CommonImageView(
-                                svgPath: ImageConstant.imgRefresh,
-                              ),
-                              CommonImageView(
-                                svgPath: ImageConstant.imgSave,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      getNavigationBar()
                     ]),
               ))),
+    );
+  }
+
+  Widget getNavigationBar() {
+    return Container(
+      child: Padding(
+        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.homeScreen);
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgHome,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.transferScreen);
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgRefresh,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Alert(
+                        type: AlertType.error,
+                        context: context,
+                        title:
+                            "Your account has not activated yet!".toUpperCase())
+                    .show();
+              },
+              child: CommonImageView(
+                svgPath: ImageConstant.imgSave,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -200,7 +248,8 @@ class TutionFeesScreen extends GetWidget<TutionFeesController> {
   }
 
   onTapTopupthrough1() {
-    Get.toNamed(AppRoutes.universityFeesScreen);
+    //Get.toNamed(AppRoutes.universityFeesScreen);
+    Alert(context: context, type: AlertType.info, title: " Coming Soon").show();
   }
 
   onTapHomeScreen() {
@@ -214,5 +263,26 @@ class TutionFeesScreen extends GetWidget<TutionFeesController> {
         builder: (context) => SettingsScreen(page_name, ""),
       ),
     );
+  }
+
+  OnTapSupport() {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "call us on: +201553490803".toUpperCase(),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OKAY",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )
+      ],
+    ).show();
   }
 }

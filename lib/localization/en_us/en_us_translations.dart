@@ -1,4 +1,5 @@
 final Map<String, String> enUs = {
+  'msg_call_support': 'call us on: +201553490803',
   'msg_network_err': 'Network Error',
   'msg_something_went_wrong': 'Something Went Wrong!',
   "lbl_continue": "continue",
@@ -25,7 +26,7 @@ final Map<String, String> enUs = {
   "lbl_amount_due": "AMOUNT DUE",
   "msg_request_confirm": "Request Confirmation",
   "msg_12_equal_instal": "12 Equal Installments",
-  "msg_explore_secure": "Explore secure and fast payment",
+  "msg_explore_secure": "Explore secure and fast payment through our card.",
   "lbl_phone_number": "Phone number",
   "lbl_08_28": "08/28",
   "msg_cairo_universit": "Cairo University",
@@ -51,7 +52,7 @@ final Map<String, String> enUs = {
   "lbl_mohamed_shaker2": "MOHAMED SHAKER",
   "lbl_add_money2": "Add Money",
   "msg_personal_inform": "Personal information",
-  "msg_pay_your_tution": "Pay your tution fees later",
+  "msg_pay_your_tution": "Pay your tuition fees later.",
   "msg_start_by_creati": "Start by creating\nan account",
   "lbl_2_500_egp": "-2,500 EGP",
   "msg_we_need_you_to":
