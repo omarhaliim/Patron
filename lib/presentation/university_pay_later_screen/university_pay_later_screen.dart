@@ -1,3 +1,6 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omar_s_application2/widgets/navigation_bar.dart';
+
 import '../settings_screen/settings_screen.dart';
 import 'controller/university_pay_later_controller.dart';
 import 'package:flutter/material.dart';
@@ -55,29 +58,25 @@ class _UniversityPayLaterScreenState extends State<UniversityPayLaterScreen> {
                               // crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                GestureDetector(
-                                  onTap: () {
+                                IconButton(
+                                  icon: FaIcon(FontAwesomeIcons.headset),
+                                  onPressed: () {
                                     OnTapSupport();
                                   },
-                                  child: CommonImageView(
-                                    svgPath: ImageConstant.imgMusic,
-                                  ),
                                 ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                GestureDetector(
-                                  child: CommonImageView(
-                                    svgPath: ImageConstant.imgSettings,
-                                  ),
-                                  onTap: () {
+                                IconButton(
+                                  icon: FaIcon(FontAwesomeIcons.gear),
+                                  onPressed: () {
                                     OnTapSettings(
                                         context, "university_pay_later_screen");
                                   },
                                 ),
                               ],
-                            )
+                            ),
                           ]),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Text("lbl_pay_later".tr,
@@ -189,53 +188,9 @@ class _UniversityPayLaterScreenState extends State<UniversityPayLaterScreen> {
                               ),
                             ]),
                       ),
-                      getNavigationBar()
+                      NavigationBarWidget(Colors.black)
                     ]),
               ))),
-    );
-  }
-
-  Widget getNavigationBar() {
-    return Container(
-      child: Padding(
-        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.homeScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgHome,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.transferScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgRefresh,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Alert(
-                        type: AlertType.error,
-                        context: context,
-                        title:
-                            "Your account has not activated yet!".toUpperCase())
-                    .show();
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgSave,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -262,6 +217,7 @@ class _UniversityPayLaterScreenState extends State<UniversityPayLaterScreen> {
 
   OnTapSupport() {
     Alert(
+      style: AlertStyle(titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
       context: context,
       type: AlertType.info,
       title: "call us on: +201553490803".toUpperCase(),

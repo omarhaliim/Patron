@@ -1411,10 +1411,14 @@ class _ImagePickerState extends State<ImagePicker>
                                 });
                                 if (_selectedImages.length == 1) {
                                   Alert(
+                                      style: AlertStyle(
+                                          titleStyle: AppStyle.alertStyle
+                                              .copyWith(height: 1.00)),
                                       type: AlertType.warning,
                                       context: context,
                                       title:
-                                          "Kindly prepare the back side of your nationalID",
+                                          "Kindly prepare the back side of your national ID."
+                                              .toUpperCase(),
                                       buttons: [
                                         DialogButton(
                                           child: Text(

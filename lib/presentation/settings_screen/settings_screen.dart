@@ -1,6 +1,7 @@
 import 'package:omar_s_application2/presentation/add_money_screen/add_money_screen.dart';
 import 'package:omar_s_application2/presentation/splash_screen/splash_screen.dart';
 
+import '../../widgets/navigation_bar.dart';
 import '../add_card_screen/add_card_screen.dart';
 import 'controller/settings_controller.dart';
 import 'package:flutter/material.dart';
@@ -74,28 +75,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   // crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    GestureDetector(
-                                      onTap: () {
+                                    IconButton(
+                                      icon: FaIcon(FontAwesomeIcons.headset),
+                                      onPressed: () {
                                         OnTapSupport();
                                       },
-                                      child: CommonImageView(
-                                        svgPath: ImageConstant.imgMusic,
-                                      ),
                                     ),
-                                    // SizedBox(
-                                    //   width: 15,
-                                    // ),
-                                    // GestureDetector(
-                                    //   child: CommonImageView(
-                                    //     svgPath: ImageConstant.imgSettings,
-                                    //   ),
-                                    //   onTap: () {
-                                    //     OnTapSettings(context, "school_fees");
-                                    //   },
-                                    // ),
                                   ],
                                 )
                               ]),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Text("Settings",
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
@@ -160,7 +151,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ],
                         ),
                       ),
-                      getNavigationBar()
+                      NavigationBarWidget(Colors.black)
                     ]),
               ))),
     );
@@ -212,50 +203,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ]))));
   }
 
-  Widget getNavigationBar() {
-    return Container(
-      child: Padding(
-        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.homeScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgHome,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.transferScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgRefresh,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Alert(
-                        type: AlertType.error,
-                        context: context,
-                        title:
-                            "Your account has not activated yet!".toUpperCase())
-                    .show();
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgSave,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   onTapLogout(BuildContext context, var number) {
     Navigator.push(
       context,
@@ -288,6 +235,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       case "transfer":
         Get.toNamed(AppRoutes.transferScreen);
         break;
+      case "apply_for_a_loan_screen":
+        Get.toNamed(AppRoutes.applyForLoan);
+        break;
       case "add_money":
         Navigator.push(
           context,
@@ -315,6 +265,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   OnTapSupport() {
     Alert(
+      style: AlertStyle(titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
       context: context,
       type: AlertType.info,
       title: "call us on: +201553490803".toUpperCase(),

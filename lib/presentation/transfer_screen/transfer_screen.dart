@@ -1,8 +1,7 @@
+import '../../widgets/navigation_bar.dart';
 import '../settings_screen/settings_screen.dart';
-import 'controller/transfer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
-import 'package:omar_s_application2/widgets/custom_button.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -17,7 +16,7 @@ class _TransferScreenState extends State<TransferScreen> {
   bool isLocked = true;
   String available_balance = "";
 
-  int amount = 0;
+  String amount = '0';
 
   @override
   void initState() {
@@ -26,7 +25,7 @@ class _TransferScreenState extends State<TransferScreen> {
     isLocked = true;
     available_balance = "";
 
-    amount = 0;
+    amount = '0';
   }
 
   @override
@@ -55,22 +54,18 @@ class _TransferScreenState extends State<TransferScreen> {
                           // crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            GestureDetector(
-                              onTap: () {
+                            IconButton(
+                              icon: FaIcon(
+                                  color: Colors.white,
+                                  FontAwesomeIcons.headset),
+                              onPressed: () {
                                 OnTapSupport();
                               },
-                              child: CommonImageView(
-                                svgPath: ImageConstant.imgCar,
-                              ),
                             ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            GestureDetector(
-                              child: CommonImageView(
-                                svgPath: ImageConstant.imgSettings22X22,
-                              ),
-                              onTap: () {
+                            IconButton(
+                              icon: FaIcon(
+                                  color: Colors.white, FontAwesomeIcons.gear),
+                              onPressed: () {
                                 OnTapSettings(context, "transfer");
                               },
                             ),
@@ -82,8 +77,7 @@ class _TransferScreenState extends State<TransferScreen> {
                           Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
-                                  padding:
-                                      getPadding(left: 25, top: 8, right: 25),
+                                  padding: getPadding(left: 25, right: 25),
                                   child: Text("lbl_transfer".tr,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.left,
@@ -170,7 +164,7 @@ class _TransferScreenState extends State<TransferScreen> {
                           alignment: Alignment.center,
                           child: Padding(
                               padding: getPadding(top: 10),
-                              child: Text(amount.toString(),
+                              child: Text(amount,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
                                   style: AppStyle.txtPoppinsRegular32WhiteA700
@@ -185,21 +179,33 @@ class _TransferScreenState extends State<TransferScreen> {
                                   color: Colors.white,
                                   FontAwesomeIcons.one,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(1);
+                                  });
+                                },
                               ),
                               IconButton(
                                 icon: FaIcon(
                                   color: Colors.white,
                                   FontAwesomeIcons.two,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(2);
+                                  });
+                                },
                               ),
                               IconButton(
                                 icon: FaIcon(
                                   color: Colors.white,
                                   FontAwesomeIcons.three,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(3);
+                                  });
+                                },
                               ),
                             ],
                           ),
@@ -214,21 +220,33 @@ class _TransferScreenState extends State<TransferScreen> {
                                   color: Colors.white,
                                   FontAwesomeIcons.four,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(4);
+                                  });
+                                },
                               ),
                               IconButton(
                                 icon: FaIcon(
                                   color: Colors.white,
                                   FontAwesomeIcons.five,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(5);
+                                  });
+                                },
                               ),
                               IconButton(
                                 icon: FaIcon(
                                   color: Colors.white,
                                   FontAwesomeIcons.six,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(6);
+                                  });
+                                },
                               ),
                             ],
                           ),
@@ -243,21 +261,33 @@ class _TransferScreenState extends State<TransferScreen> {
                                   color: Colors.white,
                                   FontAwesomeIcons.seven,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(7);
+                                  });
+                                },
                               ),
                               IconButton(
                                 icon: FaIcon(
                                   color: Colors.white,
                                   FontAwesomeIcons.eight,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(8);
+                                  });
+                                },
                               ),
                               IconButton(
                                 icon: FaIcon(
                                   color: Colors.white,
                                   FontAwesomeIcons.nine,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(9);
+                                  });
+                                },
                               ),
                             ],
                           ),
@@ -266,7 +296,7 @@ class _TransferScreenState extends State<TransferScreen> {
                             children: [
                               IconButton(
                                 icon: FaIcon(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   FontAwesomeIcons.circleStop,
                                 ),
                                 onPressed: () {},
@@ -276,14 +306,22 @@ class _TransferScreenState extends State<TransferScreen> {
                                   color: Colors.white,
                                   FontAwesomeIcons.zero,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(0);
+                                  });
+                                },
                               ),
                               IconButton(
                                 icon: FaIcon(
                                   color: Colors.white,
                                   FontAwesomeIcons.arrowLeft,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    onTapDigit(-1);
+                                  });
+                                },
                               ),
                             ],
                           ),
@@ -300,7 +338,7 @@ class _TransferScreenState extends State<TransferScreen> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                         side: BorderSide(
-                                          width: 1.0,
+                                          width: 3.0,
                                           color: Colors.white,
                                         ),
                                         shape: RoundedRectangleBorder(
@@ -342,58 +380,105 @@ class _TransferScreenState extends State<TransferScreen> {
                           )
                         ],
                       ),
-                      getNavigationBar()
+                      NavigationBarWidget(Colors.white)
                     ]),
               ))),
     );
   }
 
-  Widget getNavigationBar() {
-    return Container(
-      child: Padding(
-        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GestureDetector(
-              onTap: () {
-                onTapHome();
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgHome26X24,
+  onTapDigit(int number) {
+    if (amount.length < 5 || number == -1) {
+      switch (number) {
+        case 0:
+          if (amount != '0' && amount.length < 5) amount += '0';
+          break;
+        case 1:
+          if (amount == '0')
+            amount = '1';
+          else
+            amount += '1';
+          break;
+        case 2:
+          if (amount == '0')
+            amount = '2';
+          else
+            amount += '2';
+          break;
+        case 3:
+          if (amount == '0')
+            amount = '3';
+          else
+            amount += '3';
+          break;
+        case 4:
+          if (amount == '0')
+            amount = '4';
+          else
+            amount += '4';
+
+          break;
+        case 5:
+          if (amount == '0')
+            amount = '5';
+          else
+            amount += '5';
+          break;
+        case 6:
+          if (amount == '0')
+            amount = '6';
+          else
+            amount += '6';
+          break;
+        case 7:
+          if (amount == '0')
+            amount = '7';
+          else
+            amount += '7';
+          break;
+        case 8:
+          if (amount == '0')
+            amount = '8';
+          else
+            amount += '8';
+          break;
+        case 9:
+          if (amount == '0')
+            amount = '9';
+          else
+            amount += '9';
+          break;
+        case -1:
+          if (amount != '0') {
+            if (amount.length == 1)
+              amount = '0';
+            else
+              amount = amount.substring(0, amount.length - 1);
+          }
+          break;
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            Future.delayed(Duration(seconds: 1), () {
+              Navigator.of(context).pop(true);
+            });
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.transferScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgRefresh29X24,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Alert(
-                        type: AlertType.error,
-                        context: context,
-                        title:
-                            "Your account has not activated yet!".toUpperCase())
-                    .show();
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgSave21X29,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+              title: Text('Limit Reached.'.toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: AppStyle.alertStyle.copyWith(height: 1.00)),
+            );
+          });
+    }
   }
 
   onTapBtnSend() {
     Alert(
+            style: AlertStyle(
+                titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
             type: AlertType.error,
             context: context,
             title: "Your account has not activated yet!".toUpperCase())
@@ -402,6 +487,8 @@ class _TransferScreenState extends State<TransferScreen> {
 
   onTapBtnRequest() {
     Alert(
+            style: AlertStyle(
+                titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
             type: AlertType.error,
             context: context,
             title: "Your account has not activated yet!".toUpperCase())
@@ -410,6 +497,7 @@ class _TransferScreenState extends State<TransferScreen> {
 
   OnTapSupport() {
     Alert(
+      style: AlertStyle(titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
       context: context,
       type: AlertType.info,
       title: "call us on: +201553490803".toUpperCase(),
@@ -438,7 +526,7 @@ class _TransferScreenState extends State<TransferScreen> {
     );
   }
 
-  void onTapHome() {
+  onTapHome() {
     Get.toNamed(AppRoutes.homeScreen);
   }
 }

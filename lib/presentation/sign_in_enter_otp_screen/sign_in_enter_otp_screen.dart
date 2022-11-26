@@ -171,9 +171,13 @@ class SignInEnterOtpScreen extends State<OTPScreen> {
                                 onTapContinue();
                               } else
                                 Alert(
+                                        style: AlertStyle(
+                                            titleStyle: AppStyle.alertStyle
+                                                .copyWith(height: 1.00)),
                                         type: AlertType.error,
                                         context: context,
-                                        title: "Incomplete OTP Code.")
+                                        title: "Incomplete OTP Code."
+                                            .toUpperCase())
                                     .show();
                             },
                             style: ElevatedButton.styleFrom(

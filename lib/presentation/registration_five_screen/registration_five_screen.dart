@@ -626,12 +626,18 @@ class _RegistrationFiveScreenState extends State<RegistrationFiveScreen> {
                                                                 Phone);
 
                                                             Alert(
+                                                                style: AlertStyle(
+                                                                    titleStyle: AppStyle
+                                                                        .alertStyle
+                                                                        .copyWith(
+                                                                            height:
+                                                                                1.00)),
                                                                 type: AlertType
                                                                     .success,
                                                                 context:
                                                                     context,
-                                                                title:
-                                                                    "Your Patron Card is Ready",
+                                                                title: "Your Patron Card is Ready"
+                                                                    .toUpperCase(),
                                                                 buttons: [
                                                                   DialogButton(
                                                                     child: Text(
@@ -654,23 +660,33 @@ class _RegistrationFiveScreenState extends State<RegistrationFiveScreen> {
                                                                 ]).show();
                                                           } else {
                                                             Alert(
+                                                                    style: AlertStyle(
+                                                                        titleStyle: AppStyle.alertStyle.copyWith(
+                                                                            height:
+                                                                                1.00)),
                                                                     type: AlertType
                                                                         .error,
                                                                     context:
                                                                         context,
-                                                                    title:
-                                                                        "Error has occured. Please try again!")
+                                                                    title: "Error has occured. Please try again!"
+                                                                        .toUpperCase())
                                                                 .show();
                                                           }
                                                         }
                                                       } else {
                                                         Alert(
+                                                                style: AlertStyle(
+                                                                    titleStyle: AppStyle
+                                                                        .alertStyle
+                                                                        .copyWith(
+                                                                            height:
+                                                                                1.00)),
                                                                 context:
                                                                     context,
                                                                 type: AlertType
                                                                     .error,
-                                                                title:
-                                                                    "You need to accept the terms and conditions")
+                                                                title: "You need to accept the terms and conditions."
+                                                                    .toUpperCase())
                                                             .show();
                                                       }
 

@@ -1,5 +1,7 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omar_s_application2/presentation/settings_screen/settings_screen.dart';
 
+import '../../widgets/navigation_bar.dart';
 import 'controller/tution_fees_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:omar_s_application2/core/app_export.dart';
@@ -43,22 +45,15 @@ class _TutionFeesScreenState extends State<TutionFeesScreen> {
                                 // crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
+                                  IconButton(
+                                    icon: FaIcon(FontAwesomeIcons.headset),
+                                    onPressed: () {
                                       OnTapSupport();
                                     },
-                                    child: CommonImageView(
-                                      svgPath: ImageConstant.imgMusic,
-                                    ),
                                   ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  GestureDetector(
-                                    child: CommonImageView(
-                                      svgPath: ImageConstant.imgSettings,
-                                    ),
-                                    onTap: () {
+                                  IconButton(
+                                    icon: FaIcon(FontAwesomeIcons.gear),
+                                    onPressed: () {
                                       OnTapSettings(context, "tuition_fees");
                                     },
                                   ),
@@ -68,7 +63,7 @@ class _TutionFeesScreenState extends State<TutionFeesScreen> {
                             Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
-                                    padding: getPadding(top: 7, right: 10),
+                                    padding: getPadding(right: 10),
                                     child: Text("lbl_tution_fees".tr,
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.left,
@@ -193,53 +188,9 @@ class _TutionFeesScreenState extends State<TutionFeesScreen> {
                                           )
                                         ])))
                           ]),
-                      getNavigationBar()
+                      NavigationBarWidget(Colors.black)
                     ]),
               ))),
-    );
-  }
-
-  Widget getNavigationBar() {
-    return Container(
-      child: Padding(
-        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.homeScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgHome,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.transferScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgRefresh,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Alert(
-                        type: AlertType.error,
-                        context: context,
-                        title:
-                            "Your account has not activated yet!".toUpperCase())
-                    .show();
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgSave,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -248,8 +199,14 @@ class _TutionFeesScreenState extends State<TutionFeesScreen> {
   }
 
   onTapTopupthrough1() {
-    //Get.toNamed(AppRoutes.universityFeesScreen);
-    Alert(context: context, type: AlertType.info, title: " Coming Soon").show();
+    // Get.toNamed(AppRoutes.universityFeesScreen);
+    Alert(
+            context: context,
+            type: AlertType.info,
+            title: "Coming Soon".toUpperCase(),
+            style: AlertStyle(
+                titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)))
+        .show();
   }
 
   onTapHomeScreen() {
@@ -267,6 +224,7 @@ class _TutionFeesScreenState extends State<TutionFeesScreen> {
 
   OnTapSupport() {
     Alert(
+      style: AlertStyle(titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
       context: context,
       type: AlertType.info,
       title: "call us on: +201553490803".toUpperCase(),

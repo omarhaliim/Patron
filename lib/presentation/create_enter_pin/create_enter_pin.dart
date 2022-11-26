@@ -184,9 +184,14 @@ class _create_enter_pinState extends State<create_enter_pin> {
                                     } else {
                                       myControllerPin.clear();
                                       Alert(
+                                              style: AlertStyle(
+                                                  titleStyle: AppStyle
+                                                      .alertStyle
+                                                      .copyWith(height: 1.00)),
                                               type: AlertType.error,
                                               context: context,
-                                              title: "Incomplete OTP Code.")
+                                              title: "Incomplete OTP Code."
+                                                  .toUpperCase())
                                           .show();
                                     }
                                   }

@@ -14,6 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../add_card_screen/add_card_screen.dart';
 import '../settings_screen/settings_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:omar_s_application2/widgets/navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,22 +69,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      GestureDetector(
-                        onTap: () {
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.headset),
+                        onPressed: () {
                           OnTapSupport();
                         },
-                        child: CommonImageView(
-                          svgPath: ImageConstant.imgMusic,
-                        ),
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      GestureDetector(
-                        child: CommonImageView(
-                          svgPath: ImageConstant.imgSettings,
-                        ),
-                        onTap: () {
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.gear),
+                        onPressed: () {
                           OnTapSettings(context, "home");
                         },
                       ),
@@ -95,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: getPadding(
                       left: 5,
-                      top: 12,
+                      //top: 12,
                       right: 10,
                     ),
                     child: Text(
@@ -322,52 +316,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 1.00,
                           ),
                         ))),
-                getNavigationBar()
+                // getNavigationBar()
+                NavigationBarWidget(Colors.black)
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget getNavigationBar() {
-    return Container(
-      child: Padding(
-        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GestureDetector(
-              onTap: () {},
-              child: CommonImageView(
-                svgPath: ImageConstant.imgHome,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.transferScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgRefresh,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Alert(
-                        type: AlertType.error,
-                        context: context,
-                        title:
-                            "Your account has not activated yet!".toUpperCase())
-                    .show();
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgSave,
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -665,6 +618,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   OnTapSupport() {
     Alert(
+      style: AlertStyle(titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
       context: context,
       type: AlertType.info,
       title: "call us on: +201553490803".toUpperCase(),

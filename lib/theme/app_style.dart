@@ -20,6 +20,15 @@ class AppStyle {
     fontWeight: FontWeight.w500,
   );
 
+  static TextStyle alertStyle = TextStyle(
+    color: ColorConstant.black900,
+    fontSize: getFontSize(
+      28,
+    ),
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w500,
+  );
+
   static TextStyle txtPoppinsSemiBold32Black900 = TextStyle(
     color: ColorConstant.black900,
     fontSize: getFontSize(

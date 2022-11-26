@@ -1,4 +1,6 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omar_s_application2/models/schools.dart';
+import 'package:omar_s_application2/widgets/navigation_bar.dart';
 
 import '../../models/university.dart';
 import '../settings_screen/settings_screen.dart';
@@ -84,28 +86,24 @@ class _UniversityFeesScreenState extends State<UniversityFeesScreen> {
                               // crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                GestureDetector(
-                                  onTap: () {
+                                IconButton(
+                                  icon: FaIcon(FontAwesomeIcons.headset),
+                                  onPressed: () {
                                     OnTapSupport();
                                   },
-                                  child: CommonImageView(
-                                    svgPath: ImageConstant.imgMusic,
-                                  ),
                                 ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                GestureDetector(
-                                  child: CommonImageView(
-                                    svgPath: ImageConstant.imgSettings,
-                                  ),
-                                  onTap: () {
+                                IconButton(
+                                  icon: FaIcon(FontAwesomeIcons.gear),
+                                  onPressed: () {
                                     OnTapSettings(context, "university_fees");
                                   },
                                 ),
                               ],
-                            )
+                            ),
                           ]),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Text("lbl_tution_fees".tr,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
@@ -132,7 +130,7 @@ class _UniversityFeesScreenState extends State<UniversityFeesScreen> {
                           },
                         ),
                       ),
-                      getNavigationBar()
+                      NavigationBarWidget(Colors.black)
                     ]),
               ))),
     );
@@ -174,50 +172,6 @@ class _UniversityFeesScreenState extends State<UniversityFeesScreen> {
                     ]))));
   }
 
-  Widget getNavigationBar() {
-    return Container(
-      child: Padding(
-        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.homeScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgHome,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.transferScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgRefresh,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Alert(
-                        type: AlertType.error,
-                        context: context,
-                        title:
-                            "Your account has not activated yet!".toUpperCase())
-                    .show();
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgSave,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   onTapImgArrowleft() {
     Get.toNamed(AppRoutes.tutionFeesScreen);
   }
@@ -245,6 +199,7 @@ class _UniversityFeesScreenState extends State<UniversityFeesScreen> {
 
   OnTapSupport() {
     Alert(
+      style: AlertStyle(titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
       context: context,
       type: AlertType.info,
       title: "call us on: +201553490803".toUpperCase(),

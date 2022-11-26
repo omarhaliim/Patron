@@ -149,9 +149,12 @@ class _SignInScreenState extends State<SignInScreen> {
         );
       else
         Alert(
+          style: AlertStyle(
+              titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
           context: context,
           type: AlertType.error,
-          title: "This mobile number is not registered. Sign up now?",
+          title: "This mobile number is not registered. Sign up now?"
+              .toUpperCase(),
           buttons: [
             DialogButton(
               child: Text(

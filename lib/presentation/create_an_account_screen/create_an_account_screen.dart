@@ -346,16 +346,24 @@ class _CreateAnAccountScreenState extends State<CreateAnAccountScreen> {
                               if (await isExistingUserName(UserName)) {
                                 myControllerUserName.clear();
                                 Alert(
+                                        style: AlertStyle(
+                                            titleStyle: AppStyle.alertStyle
+                                                .copyWith(height: 1.00)),
                                         type: AlertType.error,
                                         context: context,
-                                        title: " Username is already taken")
+                                        title: "Username is already taken"
+                                            .toUpperCase())
                                     .show();
                               } else if (await isExistingUser(Phone)) {
                                 Alert(
+                                  style: AlertStyle(
+                                      titleStyle: AppStyle.alertStyle
+                                          .copyWith(height: 1.00)),
                                   context: context,
                                   type: AlertType.error,
                                   title:
-                                      "This mobile number is already registered. Sign in now?",
+                                      "This mobile number is already registered. Sign in now?"
+                                          .toUpperCase(),
                                   buttons: [
                                     DialogButton(
                                       child: Text(

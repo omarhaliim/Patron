@@ -14,7 +14,7 @@ final Map<String, String> enUs = {
   "msg_sign_in_enter": "Sign in - Enter PIN One",
   "lbl_internet_bill": "Internet Bill",
   "msg_create_an_accou2": "Create an account ",
-  "msg_top_up_through": "Top-up through\nother Cards",
+  "msg_top_up_through": "Top-up through other Cards",
   "msg_add_cash_throug": "Add Cash through",
   "lbl2": "**** *****",
   "lbl3": "**/**",

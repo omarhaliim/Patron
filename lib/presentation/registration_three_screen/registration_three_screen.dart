@@ -265,6 +265,9 @@ class _RegistrationThreeScreenState extends State<RegistrationThreeScreen> {
                             onTapBtnScan();
                           },
                           style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
                             primary: Colour(0, 100, 254),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 85, vertical: 7.5),
@@ -289,9 +292,12 @@ class _RegistrationThreeScreenState extends State<RegistrationThreeScreen> {
   onTapBtnScan() async {
     // Get.toNamed(AppRoutes.registrationFourScreen);
     return Alert(
+        style:
+            AlertStyle(titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
         type: AlertType.warning,
         context: context,
-        title: "Kindly prepare the front side of your nationalID",
+        title:
+            "Kindly prepare the front side of your national ID.".toUpperCase(),
         buttons: [
           DialogButton(
             child: Text(

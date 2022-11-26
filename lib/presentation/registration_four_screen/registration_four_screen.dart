@@ -41,6 +41,7 @@ class RegistrationFourScreen extends GetWidget<RegistrationFourController> {
           child: Scaffold(
               backgroundColor: ColorConstant.blueA700,
               body: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Container(
                     margin: getMargin(left: 15, right: 15),
                     child: Column(
@@ -201,67 +202,85 @@ class RegistrationFourScreen extends GetWidget<RegistrationFourController> {
                                   ])),
 
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(20),
                             child: Align(
                               alignment: Alignment.center,
-                              child: Column(
+                              child: Row(
                                 //margin: getMargin(bottom: 20, top: 30),
 
                                 children: [
-                                  ElevatedButton(
-                                    child: Text('continue'.toUpperCase()),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegistrationFiveScreen(
-                                                  FirstName,
-                                                  LastName,
-                                                  UserName,
-                                                  Email,
-                                                  Phone,
-                                                  Password),
-                                        ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        onPrimary: Colour(0, 100, 254),
-                                        primary: Colour(255, 255, 255),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 107.5, vertical: 7.5),
-                                        textStyle: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 20)),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      child: Text('retake'.toUpperCase()),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                RegistrationThreeScreen(
+                                                    this.FirstName,
+                                                    this.LastName,
+                                                    this.UserName,
+                                                    this.Email,
+                                                    this.Phone,
+                                                    this.Password),
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          side: BorderSide(
+                                            width: 3.0,
+                                            color: Colors.white,
+                                          ),
+                                          onPrimary: Colors.white,
+                                          primary: Colour(0, 100, 254),
+                                          padding: EdgeInsets.symmetric(
+                                              // horizontal: 107.5,
+                                              vertical: 7.5),
+                                          textStyle: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 22)),
+                                    ),
                                   ),
                                   SizedBox(
-                                    height: 20,
+                                    width: 20,
                                   ),
-                                  ElevatedButton(
-                                    child: Text('Retake'.toUpperCase()),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegistrationThreeScreen(
-                                                  this.FirstName,
-                                                  this.LastName,
-                                                  this.UserName,
-                                                  this.Email,
-                                                  this.Phone,
-                                                  this.Password),
-                                        ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        onPrimary: Colour(0, 100, 254),
-                                        primary: Colour(255, 255, 255),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 107.5, vertical: 7.5),
-                                        textStyle: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 20)),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      child: Text('continue'.toUpperCase()),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                RegistrationFiveScreen(
+                                                    FirstName,
+                                                    LastName,
+                                                    UserName,
+                                                    Email,
+                                                    Phone,
+                                                    Password),
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          onPrimary: Colour(0, 100, 254),
+                                          primary: Colour(255, 255, 255),
+                                          padding: EdgeInsets.symmetric(
+                                              // horizontal: 107.5,
+                                              vertical: 7.5),
+                                          textStyle: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 20)),
+                                    ),
                                   ),
                                 ],
                               ),

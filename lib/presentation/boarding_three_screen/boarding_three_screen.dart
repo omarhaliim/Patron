@@ -59,10 +59,14 @@ class BoardingThreeScreen extends GetWidget<BoardingThreeController> {
                           ),
                         ),
                         Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: CommonImageView(
-                              imagePath: ImageConstant.imgTrackMoney,
+                          child: Container(
+                            margin: getMargin(
+                                top: 20, bottom: 20, left: 20, right: 20),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: CommonImageView(
+                                imagePath: ImageConstant.imgTrackMoney,
+                              ),
                             ),
                           ),
                         ),

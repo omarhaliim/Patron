@@ -195,17 +195,26 @@ class _SignInEnterPinScreenState extends State<SignInEnterPinScreen> {
                                     } else {
                                       myControllerPin.clear();
                                       Alert(
+                                              style: AlertStyle(
+                                                  titleStyle: AppStyle
+                                                      .alertStyle
+                                                      .copyWith(height: 1.00)),
                                               type: AlertType.error,
                                               context: context,
-                                              title: "Wrong PIN Code.")
+                                              title: "Wrong PIN Code."
+                                                  .toUpperCase())
                                           .show();
                                     }
                                   }
                                 } else
                                   Alert(
+                                          style: AlertStyle(
+                                              titleStyle: AppStyle.alertStyle
+                                                  .copyWith(height: 1.00)),
                                           type: AlertType.error,
                                           context: context,
-                                          title: "Incomplete PIN Code.")
+                                          title: "Incomplete PIN Code."
+                                              .toUpperCase())
                                       .show();
                               },
                               style: ElevatedButton.styleFrom(

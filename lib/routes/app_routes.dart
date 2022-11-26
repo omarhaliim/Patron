@@ -3,6 +3,7 @@ import 'package:omar_s_application2/presentation/settings_screen/settings_screen
 import 'package:omar_s_application2/presentation/splash_screen/splash_screen.dart';
 import 'package:omar_s_application2/presentation/splash_screen/binding/splash_binding.dart';
 import 'package:omar_s_application2/presentation/successful_request_screen/successful_request_screen.dart';
+import 'package:omar_s_application2/presentation/apply_for_a_loan_screen/apply_for_a_loan_screen.dart';
 import 'package:omar_s_application2/presentation/successful_request_screen/binding/successful_request_binding.dart';
 import 'package:omar_s_application2/presentation/successful_send_screen/successful_send_screen.dart';
 import 'package:omar_s_application2/presentation/successful_send_screen/binding/successful_send_binding.dart';
@@ -82,6 +83,8 @@ import '../presentation/registration_five_screen/registration_five_screen.dart';
 
 class AppRoutes {
   static String CreateEnterPin = '/create_enter_pin';
+
+  static String applyForLoan = '/apply_for_loan';
 
   //static String splashScreen = '/splash_screen';
 
@@ -176,6 +179,7 @@ class AppRoutes {
     //     SplashBinding(),
     //   ],
     // ),
+    GetPage(name: applyForLoan, page: () => ApplyForLoanScreen()),
     GetPage(
       name: successfulRequestScreen,
       page: () => SuccessfulRequestScreen(),

@@ -1,4 +1,6 @@
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omar_s_application2/widgets/navigation_bar.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../add_card_screen/widgets/listgroup12715_item_widget.dart';
@@ -43,9 +45,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
     old_exp = "";
 
     Cards c1 = Cards("PREPAID", "4588  0080  8819  9300", "08/28", "888",
-        "MOHAMED SHAKER", false);
+        "NOOR MAGDY", false);
     Cards c2 = Cards("CREDIT", "4588  0080  8819  9300", "08/28", "888",
-        "MOHAMED SHAKER", false);
+        "NOOR MAGDY", false);
 
     cards.add(c1);
     cards.add(c2);
@@ -77,22 +79,15 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      GestureDetector(
-                        onTap: () {
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.headset),
+                        onPressed: () {
                           OnTapSupport();
                         },
-                        child: CommonImageView(
-                          svgPath: ImageConstant.imgMusic,
-                        ),
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      GestureDetector(
-                        child: CommonImageView(
-                          svgPath: ImageConstant.imgSettings,
-                        ),
-                        onTap: () {
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.gear),
+                        onPressed: () {
                           OnTapSettings(context, "add_card");
                         },
                       ),
@@ -369,54 +364,10 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     },
                   ),
                 ),
-                getNavigationBar()
+                NavigationBarWidget(Colors.black)
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget getNavigationBar() {
-    return Container(
-      child: Padding(
-        padding: getPadding(top: 10, bottom: 20, left: 20, right: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.homeScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgHome,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.transferScreen);
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgRefresh,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Alert(
-                        type: AlertType.error,
-                        context: context,
-                        title:
-                            "Your account has not activated yet!".toUpperCase())
-                    .show();
-              },
-              child: CommonImageView(
-                svgPath: ImageConstant.imgSave,
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -637,18 +588,24 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
     if (!isValidNumber())
       Alert(
+              style: AlertStyle(
+                  titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
               type: AlertType.error,
               context: context,
               title: "Please enter a valid card number.".toUpperCase())
           .show();
     else if (!isValidExp())
       Alert(
+              style: AlertStyle(
+                  titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
               type: AlertType.error,
               context: context,
               title: "Please enter a valid expiration date.".toUpperCase())
           .show();
     else if (!isValidCVV())
       Alert(
+              style: AlertStyle(
+                  titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
               type: AlertType.error,
               context: context,
               title: "Please enter a valid CVV.".toUpperCase())
@@ -665,6 +622,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
       myControllerCVV.clear();
 
       Alert(
+              style: AlertStyle(
+                  titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
               type: AlertType.success,
               context: context,
               title: "Card added successfully.".toUpperCase())
@@ -716,6 +675,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
   OnTapSupport() {
     Alert(
+      style: AlertStyle(titleStyle: AppStyle.alertStyle.copyWith(height: 1.00)),
       context: context,
       type: AlertType.info,
       title: "call us on: +201553490803".toUpperCase(),

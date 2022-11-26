@@ -118,11 +118,11 @@ class ImageConstant {
 
   static String imgPatronCard = 'assets/images/patron_card.png';
 
-  static String imgTrackMoney = 'assets/images/track_money.png';
+  static String imgTrackMoney = 'assets/images/track_money_white.png';
 
   static String imgPatronLogo = 'assets/images/patron_logo.png';
 
-  static String imgTuitionFees = 'assets/images/tuition_fees.png';
+  static String imgTuitionFees = 'assets/images/tuition_fees_white.png';
 
   static String imgComputer14X12 = 'assets/images/img_computer_14X12.svg';
 

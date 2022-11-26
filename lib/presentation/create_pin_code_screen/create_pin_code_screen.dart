@@ -192,9 +192,13 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
                                   myControllerPin.text.toString(),
                                   myControllerPin2.text.toString())) {
                                 Alert(
+                                        style: AlertStyle(
+                                            titleStyle: AppStyle.alertStyle
+                                                .copyWith(height: 1.00)),
                                         type: AlertType.error,
                                         context: context,
-                                        title: "Incomplete PIN Code.")
+                                        title: "Incomplete PIN Code."
+                                            .toUpperCase())
                                     .show();
                               } else if (!isMatching(
                                   myControllerPin.text.toString(),
@@ -202,9 +206,13 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
                                 myControllerPin.clear();
                                 myControllerPin2.clear();
                                 Alert(
+                                        style: AlertStyle(
+                                            titleStyle: AppStyle.alertStyle
+                                                .copyWith(height: 1.00)),
                                         type: AlertType.error,
                                         context: context,
-                                        title: "PIN Codes don't match.")
+                                        title: "PIN Codes don't match."
+                                            .toUpperCase())
                                     .show();
                               } else {
                                 if (!isWeekPassword(
@@ -232,10 +240,14 @@ class CreatePinCodeScreen extends State<Create_Pin_Code_Screen> {
                                   myControllerPin.clear();
                                   myControllerPin2.clear();
                                   Alert(
+                                          style: AlertStyle(
+                                              titleStyle: AppStyle.alertStyle
+                                                  .copyWith(height: 1.00)),
                                           type: AlertType.error,
                                           context: context,
                                           title:
-                                              "Your password is Week, Please select more unique password")
+                                              "Your password is too Week. Please select a stronger one."
+                                                  .toUpperCase())
                                       .show();
                                 }
                               }
